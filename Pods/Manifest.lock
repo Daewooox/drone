@@ -1,0 +1,18 @@
+PODS:
+  - Alamofire (4.5.1)
+  - KeychainSwift (10.0.0)
+  - LGButton (1.0.4)
+
+DEPENDENCIES:
+  - Alamofire
+  - KeychainSwift
+  - LGButton
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
+  LGButton: 40c36e2b7a274d9cb263420e568bc8890832954e
+
+PODFILE CHECKSUM: 45f9c7ab310ae36af20f2355344a30986f219e9a
+
+COCOAPODS: 1.3.1
