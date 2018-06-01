@@ -25,6 +25,12 @@ func registerAccountEndpoint() -> String {
 }
 
 
+func checkAccountEndpoint(udid: String) -> String {
+    let url = "\(dronBaseEndpoint)account/\(udid)"
+    return url
+}
+
+
 func addStatusEndpoint() -> String {
     return dronBaseEndpoint + "status"
 }
@@ -32,7 +38,8 @@ func addStatusEndpoint() -> String {
 
 ///account/{deviceId}/sos
 func addSosRequstEndpoint(udid: String) -> String {
-    return dronBaseEndpoint + "account" + udid + "/sos"
+    let url = "\(dronBaseEndpoint)account/\(udid)/sos"
+    return url
 }
 
 
@@ -40,13 +47,14 @@ func addSosRequstEndpoint(udid: String) -> String {
 
 
 func addLocationEndpoint(udid: String, requestID: UInt64) -> String {
-    let url = "\(dronBaseEndpoint)account/ \(udid) /sos/ \(requestID)"
+    let url = "\(dronBaseEndpoint)account/\(udid)/sos/\(requestID)/location"
     return url
 }
 
 
-func cancelSosRequstEndpoint(udid: String, requestID: String) -> String {
-    return dronBaseEndpoint + "/account" + udid + "/sos" + requestID
+func cancelSosRequstEndpoint(udid: String, requestID: UInt64) -> String {
+    let url = "\(dronBaseEndpoint)account/\(udid)/sos/\(requestID)"
+    return url
 }
 
 

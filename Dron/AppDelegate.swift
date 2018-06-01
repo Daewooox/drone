@@ -21,14 +21,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         InjectorContainer.shared.dronLocationManager.start()
         
 
-        
+        let udid = UIDevice.current.identifierForVendor!.uuidString
         if InjectorContainer.shared.dronKeychainManager.isUserExist() == false {
-            let newAccount: DronAccount = DronAccount(deviceId: UIDevice.current.identifierForVendor!.uuidString,
+            let newAccount: DronAccount = DronAccount(deviceId: udid,
                                                       contactInformation: "",
                                                       medicalData: "",
                                                       emergencyContactInformation: "")
-            InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
-            InjectorContainer.shared.dronServerProvider.registerNewAccount(accountDTO: newAccount, completion: { (responce, error) -> (Void) in
+            InjectorContainer.shared.dronServerProvider.checkExsitingAccount(deviceID: udid, completion: { (responce, error) -> (Void) in
+                if responce as! Bool == true {
+                    InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
+                }
+                else {
+                    InjectorContainer.shared.dronServerProvider.registerNewAccount(accountDTO: newAccount, completion: { (responce, error) -> (Void) in
+                        InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
+                    })
+                }
             })
         }
         return true

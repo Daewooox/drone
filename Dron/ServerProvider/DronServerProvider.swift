@@ -21,9 +21,11 @@ protocol DronServerProviderProtocol {
     func getAllDronesWithCompletion(completion: DronServerProviderCompletionHandler) -> Void
     
     func registerNewAccount(accountDTO: DronAccount, completion: DronServerProviderCompletionHandler) -> Void
+    func checkExsitingAccount(deviceID: String, completion: @escaping DronServerProviderCompletionHandler) -> Void
     func updateAccount(accountDTO: DronAccount, completion: DronServerProviderCompletionHandler) -> Void
     func sendUpdatingLocation(location: CLLocationCoordinate2D)->Void
     func addSosRequest(location: CLLocationCoordinate2D) -> Void
+    func cancelSosRequest() -> Void
 }
 
 
@@ -35,6 +37,16 @@ class DronServerProvider : DronServerProviderProtocol {
     init(aInjection:DronServerProviderInjection) {
         injection = aInjection;
     }
+    
+    func checkExsitingAccount(deviceID: String, completion: @escaping DronServerProviderCompletionHandler) -> Void {
+        injection?.dronNetworkService.getWithURL(url: checkAccountEndpoint(udid: deviceID), params: nil, completion: { (responce, error) -> (Void) in
+            let result = (responce != nil) as Bool
+            if responce != nil {
+                completion(result, nil)
+            }
+        })
+    }
+    
     
     func registerNewAccount(accountDTO: DronAccount, completion: DronServerProviderCompletionHandler) -> Void {
         do {
@@ -71,11 +83,16 @@ class DronServerProvider : DronServerProviderProtocol {
     
     
     func addSosRequest(location: CLLocationCoordinate2D) -> Void {
-        let locationDictionary: Dictionary<String, Double> = ["latitude" : location.latitude, "longitude" : location.longitude]
-        injection?.dronNetworkService.postWithURL(url:addSosRequstEndpoint(udid: (injection?.dronKeychainManager.getUserID())!), params: locationDictionary, completion: { (responce, error) -> (Void) in
+        let locationDictionary: Dictionary<String, String> = ["latitude" : "\(location.latitude)", "longitude" : "\(location.longitude)"]
+        let url = addSosRequstEndpoint(udid: (injection?.dronKeychainManager.getUserID())!)
+        let urlComps = NSURLComponents(string: url)!
+        let queryItems = self.queryItems(dictionary: locationDictionary)
+        urlComps.queryItems = queryItems
+        injection?.dronNetworkService.postWithURL(url:urlComps.url!.absoluteString, params: locationDictionary, completion: { (responce, error) -> (Void) in
             do {
-                let animeJsonStuff =  try JSONDecoder().decode([DronSosRequestStatusDTO].self, from: responce!)
-                print(animeJsonStuff);
+                let statusDTO =  try JSONDecoder().decode(DronSosRequestStatusDTO.self, from: responce!)
+                self.currentSOSRequest = statusDTO
+                print(statusDTO);
             }
             catch let jsonErr {
                 print("Error serializing json", jsonErr)
@@ -84,10 +101,30 @@ class DronServerProvider : DronServerProviderProtocol {
     }
     
     
+    func cancelSosRequest() -> Void {
+        if self.currentSOSRequest == nil {
+            return
+        }
+        
+        let url = cancelSosRequstEndpoint(udid: (injection?.dronKeychainManager.getUserID())!, requestID: (currentSOSRequest?.requestId)!)
+        injection?.dronNetworkService.deleteWithURL(url: url, params: nil, completion: { (responce, error) -> (Void) in
+
+        })
+    }
+    
+    
     func sendUpdatingLocation(location: CLLocationCoordinate2D)->Void {
-        let locationDictionary: Dictionary<String, Double> = ["latitude" : location.latitude, "longitude" : location.longitude]
+        if currentSOSRequest == nil {
+            return
+        }
+        let locationDictionary: Dictionary<String, String> = ["latitude" : "\(location.latitude)", "longitude" : "\(location.longitude)"]
+        let url = addLocationEndpoint(udid: (injection?.dronKeychainManager.getUserID())!, requestID: (currentSOSRequest?.requestId)!)
+        let urlComps = NSURLComponents(string: url) ?? NSURLComponents()
+        let queryItems = self.queryItems(dictionary: locationDictionary)
+        urlComps.queryItems = queryItems
+        
         if currentSOSRequest != nil {
-            injection?.dronNetworkService.postWithURL(url: addLocationEndpoint(udid: (injection?.dronKeychainManager.getUserID())!, requestID: (currentSOSRequest?.requestId)!), params: locationDictionary, completion: { (responce, error) -> (Void) in
+            injection?.dronNetworkService.postWithURL(url: urlComps.url!.absoluteString, params: locationDictionary, completion: { (responce, error) -> (Void) in
                 
             })
         }
@@ -109,6 +146,13 @@ class DronServerProvider : DronServerProviderProtocol {
     func getDronMission(droneID: UInt64, completion: DronServerProviderCompletionHandler) -> Void {
         injection?.dronNetworkService.getWithURL(url: getMissionEndpoint(), params: ["droneId" : droneID]) { (responce, error) -> (Void) in
             
+        }
+    }
+    
+    func queryItems(dictionary: [String:String]) -> [URLQueryItem] {
+        return dictionary.map {
+            // Swift 4
+            URLQueryItem(name: $0.0, value: $0.1)
         }
     }
 }

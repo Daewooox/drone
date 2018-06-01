@@ -45,6 +45,8 @@ class DronAccountViewController: UIViewController {
     }
     
     @objc func onDoneBtnTap() -> Void {
-        InjectorContainer.shared.dronKeychainManager.registerNewUser(account: dronAccountViewModel.getUpdatedAccount())
+        InjectorContainer.shared.dronServerProvider.updateAccount(accountDTO: dronAccountViewModel.getUpdatedAccount()) { (responce, error) -> (Void) in
+            InjectorContainer.shared.dronKeychainManager.registerNewUser(account: dronAccountViewModel.getUpdatedAccount())
+        }
     }
 }

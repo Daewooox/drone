@@ -9,7 +9,7 @@
 import UIKit
 import KeychainSwift
 
-var DronKeychainManagerAccountKey = "DronKeychainManager7";
+var DronKeychainManagerAccountKey = "DronKeychainManager22";
 
 protocol DronKeychainManagerInjection {
     

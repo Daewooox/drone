@@ -42,6 +42,7 @@ class DronControlViewController: UIViewController {
     
     @objc func cancelButtonTapped(_ sender: UIButton) -> Void {
         sender.backgroundColor = UIColor.DronButton.background
+        InjectorContainer.shared.dronServerProvider.cancelSosRequest()
     }
     
     @objc func buttonStartTapped(_ sender: UIButton) -> Void {

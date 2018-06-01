@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import NotificationBannerSwift
 
 protocol DronUIManagerInjection {
     
@@ -15,6 +16,8 @@ protocol DronUIManagerInjection {
 
 protocol DronUIManagerProtocol {
     func loadMainUI() -> Void
+    func showSuccessBanner() -> Void
+    func showUnsuccessBanner() -> Void
 }
 
 
@@ -49,5 +52,18 @@ class DronUIManager : DronUIManagerProtocol {
         
         UINavigationBar.appearance().tintColor = UIColor.Navbar.tint
         UINavigationBar.appearance().backgroundColor = UIColor.Navbar.background
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().barTintColor = UIColor.Navbar.tint
+        UINavigationBar.appearance().barStyle = .black
+    }
+    
+    func showSuccessBanner() -> Void {
+        let banner = NotificationBanner(title: "The request was made successfully", subtitle: "", style: .success)
+        banner.show()
+    }
+    
+    func showUnsuccessBanner() -> Void {
+        let banner = NotificationBanner(title: "The request was made unsuccessfully", subtitle: "", style: .danger)
+        banner.show()
     }
 }
