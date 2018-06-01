@@ -64,11 +64,9 @@ public class DronNetworkService: DronNetworkServiceProtocol {
         Alamofire.request(url, method: method, parameters: params, encoding: JSONEncoding.default, headers: nil).response { (responce) in
             if responce.response?.statusCode == 200 {
                 completion(responce.data, nil);
-                self.injection?.dronUIManager.showSuccessBanner()
             }
             else {
-                self.injection?.dronUIManager.showUnsuccessBanner()
-                
+                completion(nil, NSError(domain: "Error", code: 1, userInfo: nil));
             }
         }
     }

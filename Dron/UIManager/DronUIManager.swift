@@ -16,8 +16,8 @@ protocol DronUIManagerInjection {
 
 protocol DronUIManagerProtocol {
     func loadMainUI() -> Void
-    func showSuccessBanner() -> Void
-    func showUnsuccessBanner() -> Void
+    func showSuccessBanner(text: String) -> Void
+    func showUnsuccessBanner(text: String) -> Void
 }
 
 
@@ -57,13 +57,13 @@ class DronUIManager : DronUIManagerProtocol {
         UINavigationBar.appearance().barStyle = .black
     }
     
-    func showSuccessBanner() -> Void {
-        let banner = NotificationBanner(title: "The request was made successfully", subtitle: "", style: .success)
+    func showSuccessBanner(text: String) -> Void {
+        let banner = NotificationBanner(title: text, subtitle: "", style: .success)
         banner.show()
     }
     
-    func showUnsuccessBanner() -> Void {
-        let banner = NotificationBanner(title: "The request was made unsuccessfully", subtitle: "", style: .danger)
+    func showUnsuccessBanner(text: String) -> Void {
+        let banner = NotificationBanner(title: text, subtitle: "", style: .danger)
         banner.show()
     }
 }

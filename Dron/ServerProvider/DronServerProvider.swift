@@ -14,16 +14,17 @@ typealias DronServerProviderCompletionHandler = (_ result: Any?, _ error: NSErro
 protocol DronServerProviderInjection {
     var dronNetworkService: DronNetworkServiceProtocol { get set };
     var dronKeychainManager: DronKeychainManagerProtocol { get set };
+    var dronUIManager: DronUIManagerProtocol { get set };
 }
 
 protocol DronServerProviderProtocol {
-    func getDronMission(droneID: UInt64, completion: DronServerProviderCompletionHandler) -> Void
-    func getAllDronesWithCompletion(completion: DronServerProviderCompletionHandler) -> Void
-    
+
     func registerNewAccount(accountDTO: DronAccount, completion: DronServerProviderCompletionHandler) -> Void
     func checkExsitingAccount(deviceID: String, completion: @escaping DronServerProviderCompletionHandler) -> Void
     func updateAccount(accountDTO: DronAccount, completion: DronServerProviderCompletionHandler) -> Void
+    
     func sendUpdatingLocation(location: CLLocationCoordinate2D)->Void
+    
     func addSosRequest(location: CLLocationCoordinate2D) -> Void
     func cancelSosRequest() -> Void
 }
@@ -56,7 +57,13 @@ class DronServerProvider : DronServerProviderProtocol {
             }
             print(dictionary);
             injection?.dronNetworkService.postWithURL(url: registerAccountEndpoint(), params: dictionary, completion: { (responce, error) -> (Void) in
-                InjectorContainer.shared.dronKeychainManager.registerNewUser(account: accountDTO)
+                if error == nil {
+                    self.injection?.dronUIManager.showSuccessBanner(text: "Account was registered successfully")
+                    InjectorContainer.shared.dronKeychainManager.registerNewUser(account: accountDTO)
+                }
+                else {
+                    self.injection?.dronUIManager.showUnsuccessBanner(text: "Account was registered unsuccessfully")
+                }
             })
         }
         catch let jsonErr {
@@ -73,7 +80,13 @@ class DronServerProvider : DronServerProviderProtocol {
             }
             print(dictionary);
             injection?.dronNetworkService.putWithURL(url: registerAccountEndpoint(), params: dictionary, completion: { (responce, error) -> (Void) in
-                InjectorContainer.shared.dronKeychainManager.registerNewUser(account: accountDTO)
+                if error == nil {
+                    self.injection?.dronUIManager.showSuccessBanner(text: "Account was updated successfully")
+                    InjectorContainer.shared.dronKeychainManager.registerNewUser(account: accountDTO)
+                }
+                else {
+                    self.injection?.dronUIManager.showUnsuccessBanner(text: "Account was updated unsuccessfully")
+                }
             })
         }
         catch let jsonErr {
@@ -89,13 +102,19 @@ class DronServerProvider : DronServerProviderProtocol {
         let queryItems = self.queryItems(dictionary: locationDictionary)
         urlComps.queryItems = queryItems
         injection?.dronNetworkService.postWithURL(url:urlComps.url!.absoluteString, params: locationDictionary, completion: { (responce, error) -> (Void) in
-            do {
-                let statusDTO =  try JSONDecoder().decode(DronSosRequestStatusDTO.self, from: responce!)
-                self.currentSOSRequest = statusDTO
-                print(statusDTO);
+            if error == nil {
+                self.injection?.dronUIManager.showSuccessBanner(text: "SOS request was made successfully")
+                do {
+                    let statusDTO =  try JSONDecoder().decode(DronSosRequestStatusDTO.self, from: responce!)
+                    self.currentSOSRequest = statusDTO
+                    print(statusDTO);
+                }
+                catch let jsonErr {
+                    print("Error serializing json", jsonErr)
+                }
             }
-            catch let jsonErr {
-                print("Error serializing json", jsonErr)
+            else {
+                self.injection?.dronUIManager.showUnsuccessBanner(text: "SOS request was made unsuccessfully")
             }
         })
     }
@@ -108,7 +127,12 @@ class DronServerProvider : DronServerProviderProtocol {
         
         let url = cancelSosRequstEndpoint(udid: (injection?.dronKeychainManager.getUserID())!, requestID: (currentSOSRequest?.requestId)!)
         injection?.dronNetworkService.deleteWithURL(url: url, params: nil, completion: { (responce, error) -> (Void) in
-
+            if error == nil {
+                self.injection?.dronUIManager.showSuccessBanner(text: "SOS was canceled successfully")
+            }
+            else {
+                self.injection?.dronUIManager.showUnsuccessBanner(text: "SOS was canceled unsuccessfully")
+            }
         })
     }
     
@@ -125,29 +149,16 @@ class DronServerProvider : DronServerProviderProtocol {
         
         if currentSOSRequest != nil {
             injection?.dronNetworkService.postWithURL(url: urlComps.url!.absoluteString, params: locationDictionary, completion: { (responce, error) -> (Void) in
-                
+                if error == nil {
+                    self.injection?.dronUIManager.showSuccessBanner(text: "Location was updated successfully")
+                }
+                else {
+                    self.injection?.dronUIManager.showUnsuccessBanner(text: "Location was updated unsuccessfully")
+                }
             })
         }
     }
     
-    
-    func getAllDronesWithCompletion(completion: (Any?, NSError?) -> (Void)) {
-        injection?.dronNetworkService.getWithURL(url: getDronesEndpoint(), params: nil) { (responce, error) -> (Void) in
-            do {
-                let animeJsonStuff =  try JSONDecoder().decode([DronDTO].self, from: responce!)
-                print(animeJsonStuff);
-            }
-            catch let jsonErr {
-                print("Error serializing json", jsonErr)
-            }
-        }
-    }
-    
-    func getDronMission(droneID: UInt64, completion: DronServerProviderCompletionHandler) -> Void {
-        injection?.dronNetworkService.getWithURL(url: getMissionEndpoint(), params: ["droneId" : droneID]) { (responce, error) -> (Void) in
-            
-        }
-    }
     
     func queryItems(dictionary: [String:String]) -> [URLQueryItem] {
         return dictionary.map {

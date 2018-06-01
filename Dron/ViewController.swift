@@ -12,10 +12,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        InjectorContainer().dronServerProvider .getAllDronesWithCompletion { (responce, error) -> (Void) in
-            var i = 0
-            
-        }
         // Do any additional setup after loading the view, typically from a nib.
     }
 
