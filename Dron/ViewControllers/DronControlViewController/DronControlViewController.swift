@@ -37,16 +37,19 @@ class DronControlViewController: UIViewController {
     
     @objc func sosButtonTapped(_ sender: UIButton) -> Void {
         sender.backgroundColor = UIColor.DronButton.background
+        sender.layer.borderColor = UIColor.DronButton.borderColor.cgColor
         InjectorContainer.shared.dronServerProvider.addSosRequest(location: InjectorContainer.shared.dronLocationManager.getLastLocation())
     }
     
     @objc func cancelButtonTapped(_ sender: UIButton) -> Void {
         sender.backgroundColor = UIColor.DronButton.background
+        sender.layer.borderColor = UIColor.DronButton.borderColor.cgColor
         InjectorContainer.shared.dronServerProvider.cancelSosRequest()
     }
     
     @objc func buttonStartTapped(_ sender: UIButton) -> Void {
         sender.backgroundColor = UIColor.DronButton.backgroundSelected
+        sender.layer.borderColor = UIColor.DronButton.borderColorSelected.cgColor
     }
     
     func createButton(title: String) -> UIButton {
@@ -54,7 +57,8 @@ class DronControlViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(title, for: UIControlState.normal)
         button.layer.cornerRadius = 5
-        button.layer.borderColor = UIColor.DronButton.borderColor.cgColor
+        button.layer.borderWidth = 1.0
+//        button.layer.borderColor = UIColor.DronButton.borderColor.cgColor
         button.backgroundColor = UIColor.DronButton.background
         return button
     }

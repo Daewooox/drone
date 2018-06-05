@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dron/AppDelegate.swift"
-            timestampString = "549548535.280605"
+            timestampString = "549897437.403845"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "31"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dron/ServerProvider/DronServerProvider.swift"
-            timestampString = "549548535.280665"
+            timestampString = "549897437.403908"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
@@ -58,28 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dron/ServerProvider/DronServerProvider.swift"
-            timestampString = "549548535.281233"
+            timestampString = "549897437.404009"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "updateAccount(accountDTO:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dron/ServerProvider/DronServerProvider.swift"
-            timestampString = "549548535.281274"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "updateAccount(accountDTO:completion:)"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "cancelSosRequest()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

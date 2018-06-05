@@ -128,6 +128,7 @@ class DronServerProvider : DronServerProviderProtocol {
         let url = cancelSosRequstEndpoint(udid: (injection?.dronKeychainManager.getUserID())!, requestID: (currentSOSRequest?.requestId)!)
         injection?.dronNetworkService.deleteWithURL(url: url, params: nil, completion: { (responce, error) -> (Void) in
             if error == nil {
+                self.currentSOSRequest = nil
                 self.injection?.dronUIManager.showSuccessBanner(text: "SOS was canceled successfully")
             }
             else {

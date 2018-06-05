@@ -23,24 +23,27 @@ extension UIColor {
 
 extension UIColor {
     struct Tabbar {
-        static let background = UIColor(netHex: 0x3f5f78)
+        static let background = UIColor(netHex: 0x000000)
+        static let titleColor = UIColor(netHex: 0xb1d0e4)
+        static let titleSelectedColor = UIColor(netHex: 0xffffff)
     }
     struct Navbar {
-        static let background = UIColor(netHex: 0x3f5f78)
-        static let tint = UIColor(netHex: 0x3f5f78)
+        static let background = UIColor(netHex: 0x000000)
+        static let tint = UIColor(netHex: 0x000000)
     }
     struct DronButton {
-        static let background = UIColor(netHex: 0x3f5f78)
-        static let backgroundSelected = UIColor(netHex: 0x3f5070)
+        static let background = UIColor(netHex: 0x000000)
+        static let backgroundSelected = UIColor(netHex: 0x000000)
         static let tint = UIColor(netHex: 0x3f5f78)
-        static let borderColor = UIColor.white
+        static let borderColor = UIColor(netHex: 0x000000)
+        static let borderColorSelected = UIColor(netHex: 0xffffff)
     }
     struct AccountViewController {
-        static let textFieldBackgroundColor = UIColor(netHex: 0xe8e8e8)
         static let textFieldTextColor = UIColor(netHex: 0x6b6b6b)
-        static let textFieldBorderColor = UIColor(netHex: 0x325883)
+        static let textFieldBackgroundColor = UIColor(netHex: 0xffffff)
+        static let textFieldBorderColor = UIColor(netHex: 0x000000)
     }
     struct ViewController {
-        static let background = UIColor(netHex: 0x5b88ac)
+        static let background = UIColor(netHex: 0xdaedfd)
     }
 }

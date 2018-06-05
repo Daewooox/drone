@@ -35,20 +35,22 @@ class DronUIManager : DronUIManagerProtocol {
         let accountVC: UIViewController = DronAccountViewController();
         let accountNavVC : UINavigationController = UINavigationController(rootViewController: accountVC);
         
-        let accountImage  = UIImage(named: "accountTabbarImage")
-        let accountSelImage = UIImage(named: "accountSelImage")
+        let accountImage  = UIImage(named: "icon-account-inactive-")
+        let accountSelImage = UIImage(named: "icon-account-active-")
         accountNavVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Account", comment: "Account"), image: accountImage, selectedImage: accountSelImage)
+        accountVC.title = "Account"
         
-        let dronImage  = UIImage(named: "accountTabbarImage")
-        let drontSelImage = UIImage(named: "accountSelImage")
+        let dronImage  = UIImage(named: "icon-drone-inactive-")
+        let drontSelImage = UIImage(named: "icon-drone-active-")
         dronVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Drone", comment: "Drone"), image: dronImage, selectedImage: drontSelImage)
-        
-        
         
         tabbarConroller.viewControllers = [dronVC, accountNavVC];
         tabbarConroller.tabBar.barTintColor = UIColor.Tabbar.background
         let window : UIWindow = UIApplication.shared.windows.first!
         window.rootViewController = tabbarConroller;
+        
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.Tabbar.titleColor], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.Tabbar.titleSelectedColor], for: .selected)
         
         UINavigationBar.appearance().tintColor = UIColor.Navbar.tint
         UINavigationBar.appearance().backgroundColor = UIColor.Navbar.background
@@ -58,11 +60,15 @@ class DronUIManager : DronUIManagerProtocol {
     }
     
     func showSuccessBanner(text: String) -> Void {
+        NotificationBannerQueue.default.removeAll()
+        
         let banner = NotificationBanner(title: text, subtitle: "", style: .success)
         banner.show()
     }
     
     func showUnsuccessBanner(text: String) -> Void {
+        NotificationBannerQueue.default.removeAll()
+        
         let banner = NotificationBanner(title: text, subtitle: "", style: .danger)
         banner.show()
     }

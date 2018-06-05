@@ -34,14 +34,15 @@ class DronAccountTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clear
         
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.titleLabel.textColor = UIColor.white
+        self.titleLabel.textColor = UIColor.black
         self.titleLabel.font = UIFont.systemFont(ofSize: 16)
         self.titleLabel.numberOfLines = 0
         self.titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
         self.contentView.addSubview(self.titleLabel)
         
         self.titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
-        self.titleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 0).isActive = true
+        self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
+        self.titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.contentView.trailingAnchor, constant: -15).isActive = true
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 16)
@@ -61,13 +62,11 @@ class DronAccountTableViewCell: UITableViewCell {
 
         self.contentView.addSubview(self.textView)
         
-        self.textView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        self.textView.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -50).isActive = true
+        self.textView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        self.textView.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor, constant: 0).isActive = true
         self.textView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -15).isActive = true
-        self.textView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10).isActive = true
+        self.textView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 10).isActive = true
         self.textView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
-        
-        self.titleLabel.rightAnchor.constraint(lessThanOrEqualTo: self.textView.leftAnchor).isActive = true
     }
     
     

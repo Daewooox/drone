@@ -27,9 +27,9 @@ class DronAccountViewModel : NSObject {
     weak var tableView : UITableView?
     
     var rowsModel : [DronAccountViewModelRowModel] = [
-        DronAccountViewModelRowModel(rowType: .DronAccountViewModelContanctInfo, rowTitle: NSLocalizedString("Contact info", comment: "Contact info")),
-        DronAccountViewModelRowModel(rowType: .DronAccountViewMedicalData, rowTitle: NSLocalizedString("Medical data", comment: "Medical data")),
-        DronAccountViewModelRowModel(rowType: .DronAccountViewEmergencyContactInformation, rowTitle: NSLocalizedString("Emergency contact info", comment: "Emergency contact info"))
+        DronAccountViewModelRowModel(rowType: .DronAccountViewModelContanctInfo, rowTitle: NSLocalizedString("Contact info:", comment: "Contact info:")),
+        DronAccountViewModelRowModel(rowType: .DronAccountViewMedicalData, rowTitle: NSLocalizedString("Medical data:", comment: "Medical data:")),
+        DronAccountViewModelRowModel(rowType: .DronAccountViewEmergencyContactInformation, rowTitle: NSLocalizedString("Emergency contact info:", comment: "Emergency contact info:"))
     ]
 }
 
