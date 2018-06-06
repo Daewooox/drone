@@ -41,8 +41,9 @@ class DronServerProvider : DronServerProviderProtocol {
     
     func checkExsitingAccount(deviceID: String, completion: @escaping DronServerProviderCompletionHandler) -> Void {
         injection?.dronNetworkService.getWithURL(url: checkAccountEndpoint(udid: deviceID), params: nil, completion: { (responce, error) -> (Void) in
-            let result = (responce != nil) as Bool
             if responce != nil {
+                let datastring = NSString(data: responce!, encoding: String.Encoding.utf8.rawValue)
+                let result = datastring?.isEqual(to: "true")
                 completion(result, nil)
             }
         })

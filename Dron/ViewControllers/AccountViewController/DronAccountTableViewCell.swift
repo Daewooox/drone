@@ -56,6 +56,7 @@ class DronAccountTableViewCell: UITableViewCell {
         textView.textColor = UIColor.AccountViewController.textFieldTextColor
         textView.tintColor = UIColor.AccountViewController.textFieldTextColor
         
+        
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.AccountViewController.textFieldBorderColor.cgColor
         textView.layer.cornerRadius = 5

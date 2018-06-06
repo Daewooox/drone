@@ -35,8 +35,11 @@ class DronAccountViewModel : NSObject {
 
 extension DronAccountViewModel : UITableViewDataSource {
     
-    func getUpdatedAccount() -> DronAccount {
+    func getUpdatedAccount() -> DronAccount? {
         var accountDTO = InjectorContainer.shared.dronKeychainManager.getCurrentUser()
+        if accountDTO == nil {
+            return nil
+        }
         let contactcell : DronAccountTableViewCell = tableView?.cellForRow(at: IndexPath(item: DronAccountViewModelRowType.DronAccountViewModelContanctInfo.rawValue, section: 0)) as! DronAccountTableViewCell
         let contactInfo = contactcell.textView.text
         

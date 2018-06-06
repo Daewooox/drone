@@ -65,8 +65,11 @@ class DronAccountViewController: UIViewController {
     @objc func onDoneBtnTap() -> Void {
         
         if isEditingMode == true {
-            InjectorContainer.shared.dronServerProvider.updateAccount(accountDTO: dronAccountViewModel.getUpdatedAccount()) { (responce, error) -> (Void) in
-                InjectorContainer.shared.dronKeychainManager.registerNewUser(account: dronAccountViewModel.getUpdatedAccount())
+            let accountDTO : DronAccount? = dronAccountViewModel.getUpdatedAccount()!
+            if accountDTO != nil {
+                InjectorContainer.shared.dronServerProvider.updateAccount(accountDTO: accountDTO!) { (responce, error) -> (Void) in
+                    InjectorContainer.shared.dronKeychainManager.registerNewUser(account: accountDTO!)
+                }
             }
         }
         
@@ -91,6 +94,6 @@ class DronAccountViewController: UIViewController {
         dronAccountViewModel.tableView?.isUserInteractionEnabled = false
         let editBatItem = UIBarButtonItem(customView: editButton!)
         self.navigationItem.rightBarButtonItem = editBatItem;
-        isEditingMode = isEditingMode == true ? false : true
+        isEditingMode = false
     }
 }
