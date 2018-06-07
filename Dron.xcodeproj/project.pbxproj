@@ -320,7 +320,6 @@
 				E26E550520AABFD3005B541D /* Frameworks */,
 				E26E550620AABFD3005B541D /* Resources */,
 				48F7BFE8BB3B1AA00B054CD5 /* [CP] Embed Pods Frameworks */,
-				E8612DF81E6068EDA3C451D9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -339,8 +338,6 @@
 				E26E551820AABFD3005B541D /* Sources */,
 				E26E551920AABFD3005B541D /* Frameworks */,
 				E26E551A20AABFD3005B541D /* Resources */,
-				D7C543CD0BA56D5154D43F5D /* [CP] Embed Pods Frameworks */,
-				E09C9CC9C097DFD829E7C047 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -360,8 +357,6 @@
 				E26E552320AABFD4005B541D /* Sources */,
 				E26E552420AABFD4005B541D /* Frameworks */,
 				E26E552520AABFD4005B541D /* Resources */,
-				62007199BA5EED3F206BEB63 /* [CP] Embed Pods Frameworks */,
-				B42E3B73D9417E0905B9CC36 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -475,21 +470,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dron/Pods-Dron-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		62007199BA5EED3F206BEB63 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DronUITests/Pods-DronUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		999EA83F9805B0050542FE4F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -526,36 +506,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B42E3B73D9417E0905B9CC36 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DronUITests/Pods-DronUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D7C543CD0BA56D5154D43F5D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DronTests/Pods-DronTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D9159DC5A8F2C9C18736AE46 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -572,36 +522,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E09C9CC9C097DFD829E7C047 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DronTests/Pods-DronTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E8612DF81E6068EDA3C451D9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dron/Pods-Dron-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -800,8 +720,9 @@
 			baseConfigurationReference = 818F74572FB858A3332F440C /* Pods-Dron.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WHHQ899U8;
+				DEVELOPMENT_TEAM = KR6V794JNC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Dron",
@@ -809,7 +730,7 @@
 				INFOPLIST_FILE = Dron/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = DMTech.Drone;
+				PRODUCT_BUNDLE_IDENTIFIER = co.awtg.Drone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -821,8 +742,9 @@
 			baseConfigurationReference = 50F3CD9A5BF09CDAFE9EE7B7 /* Pods-Dron.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WHHQ899U8;
+				DEVELOPMENT_TEAM = KR6V794JNC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Dron",
@@ -830,7 +752,7 @@
 				INFOPLIST_FILE = Dron/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = DMTech.Drone;
+				PRODUCT_BUNDLE_IDENTIFIER = co.awtg.Drone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

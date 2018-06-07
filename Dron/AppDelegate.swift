@@ -22,16 +22,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 
         let udid = UIDevice.current.identifierForVendor!.uuidString
+        
+        let newAccount: DronAccount = DronAccount(deviceId: udid,
+                                                  contactInformation: "",
+                                                  medicalData: "",
+                                                  emergencyContactInformation: "")
+        
         if InjectorContainer.shared.dronKeychainManager.isUserExist() == false {
-            let newAccount: DronAccount = DronAccount(deviceId: udid,
-                                                      contactInformation: "",
-                                                      medicalData: "",
-                                                      emergencyContactInformation: "")
             InjectorContainer.shared.dronServerProvider.checkExsitingAccount(deviceID: udid, completion: { (responce, error) -> (Void) in
                 if responce as! Bool == true {
                     InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
                 }
                 else {
+                    InjectorContainer.shared.dronKeychainManager.removeCurrentUser()
+                    InjectorContainer.shared.dronServerProvider.registerNewAccount(accountDTO: newAccount, completion: { (responce, error) -> (Void) in
+                        InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
+                    })
+                }
+            })
+        }
+        else {
+            InjectorContainer.shared.dronServerProvider.checkExsitingAccount(deviceID: udid, completion: { (responce, error) -> (Void) in
+                if responce as! Bool == true {
+                    InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
+                }
+                else {
+                    InjectorContainer.shared.dronKeychainManager.removeCurrentUser()
                     InjectorContainer.shared.dronServerProvider.registerNewAccount(accountDTO: newAccount, completion: { (responce, error) -> (Void) in
                         InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
                     })

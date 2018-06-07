@@ -35,13 +35,23 @@ class DronUIManager : DronUIManagerProtocol {
         let accountVC: UIViewController = DronAccountViewController();
         let accountNavVC : UINavigationController = UINavigationController(rootViewController: accountVC);
         
-        let accountImage  = UIImage(named: "icon-account-inactive-")
-        let accountSelImage = UIImage(named: "icon-account-active-")
+        tabbarConroller.tabBar.isTranslucent = false
+        tabbarConroller.tabBar.barStyle = .black
+        tabbarConroller.tabBar.tintColor = UIColor.Tabbar.background
+        
+        var accountImage : UIImage  = UIImage(named: "icon-account-inactive-")!
+        var accountSelImage : UIImage = UIImage(named: "icon-account-active-")!
+        accountImage = accountImage.withRenderingMode(.alwaysOriginal)
+        accountSelImage = accountSelImage.withRenderingMode(.alwaysOriginal)
+        
         accountNavVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Account", comment: "Account"), image: accountImage, selectedImage: accountSelImage)
         accountVC.title = "Account"
         
-        let dronImage  = UIImage(named: "icon-drone-inactive-")
-        let drontSelImage = UIImage(named: "icon-drone-active-")
+        var dronImage : UIImage  = UIImage(named: "icon-drone-inactive-")!
+        dronImage = dronImage.withRenderingMode(.alwaysOriginal)
+        var drontSelImage : UIImage = UIImage(named: "icon-drone-active-")!
+        drontSelImage = drontSelImage.withRenderingMode(.alwaysOriginal)
+        
         dronVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Drone", comment: "Drone"), image: dronImage, selectedImage: drontSelImage)
         
         tabbarConroller.viewControllers = [dronVC, accountNavVC];
