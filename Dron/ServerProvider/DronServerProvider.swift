@@ -18,7 +18,7 @@ protocol DronServerProviderInjection {
 }
 
 protocol DronServerProviderProtocol {
-
+    
     func registerNewAccount(accountDTO: DronAccount, completion: DronServerProviderCompletionHandler) -> Void
     func checkExsitingAccount(deviceID: String, completion: @escaping DronServerProviderCompletionHandler) -> Void
     func updateAccount(accountDTO: DronAccount, completion: DronServerProviderCompletionHandler) -> Void
@@ -99,6 +99,7 @@ class DronServerProvider : DronServerProviderProtocol {
     func addSosRequest(location: CLLocationCoordinate2D) -> Void {
         let locationDictionary: Dictionary<String, String> = ["latitude" : "\(location.latitude)", "longitude" : "\(location.longitude)"]
         let url = addSosRequstEndpoint(udid: (injection?.dronKeychainManager.getUserID())!)
+//                let url = addSosRequstEndpoint(udid: UUID().uuidString)
         let urlComps = NSURLComponents(string: url)!
         let queryItems = self.queryItems(dictionary: locationDictionary)
         urlComps.queryItems = queryItems

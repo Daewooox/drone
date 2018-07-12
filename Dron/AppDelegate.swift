@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         InjectorContainer.shared.dronLocationManager.start()
         
 
-        let udid = UIDevice.current.identifierForVendor!.uuidString
+        let udid = UUID().uuidString
         
         let newAccount: DronAccount = DronAccount(deviceId: udid,
                                                   contactInformation: "",

@@ -8,7 +8,7 @@
 
 import Foundation
 
-var dronBaseEndpoint = "http://178.172.209.29:8888/drone-server-be/";
+var dronBaseEndpoint = "http://52.174.139.191:8080/drone-server-be/";
 
 func getMissionEndpoint() -> String {
     return dronBaseEndpoint + "mission"

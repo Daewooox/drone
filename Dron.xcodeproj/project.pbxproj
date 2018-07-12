@@ -10,6 +10,9 @@
 		616166953999642549D3ADB1 /* Pods_DronTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD14226EB191A900D3A3401 /* Pods_DronTests.framework */; };
 		7416525C1981F618C33E51DE /* Pods_DronUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40769A75C005677629F44D43 /* Pods_DronUITests.framework */; };
 		905EEF4DDFDCD6D06E278FE4 /* Pods_Dron.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46CCD6325373D51E1DE59398 /* Pods_Dron.framework */; };
+		E24009FD20E4D04E00C0CA82 /* DronKeychainTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24009FC20E4D04E00C0CA82 /* DronKeychainTest.swift */; };
+		E24009FE20E4D07C00C0CA82 /* DronKeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28FF3B320B4611300E44158 /* DronKeychainManager.swift */; };
+		E24009FF20E4D09F00C0CA82 /* DronAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28FF3B520B4641800E44158 /* DronAccount.swift */; };
 		E26E550C20AABFD3005B541D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E550B20AABFD3005B541D /* AppDelegate.swift */; };
 		E26E550E20AABFD3005B541D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E550D20AABFD3005B541D /* ViewController.swift */; };
 		E26E551120AABFD3005B541D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E26E550F20AABFD3005B541D /* Main.storyboard */; };
@@ -67,6 +70,7 @@
 		7E07501A98A630B8FF81CE50 /* Pods-DronTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DronTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DronTests/Pods-DronTests.release.xcconfig"; sourceTree = "<group>"; };
 		818F74572FB858A3332F440C /* Pods-Dron.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dron.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dron/Pods-Dron.debug.xcconfig"; sourceTree = "<group>"; };
 		AA7ABE9832947FAFFAA10836 /* Pods-DronUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DronUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DronUITests/Pods-DronUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E24009FC20E4D04E00C0CA82 /* DronKeychainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronKeychainTest.swift; sourceTree = "<group>"; };
 		E26E550820AABFD3005B541D /* Dron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dron.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26E550B20AABFD3005B541D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E26E550D20AABFD3005B541D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 		E26E551F20AABFD3005B541D /* DronTests */ = {
 			isa = PBXGroup;
 			children = (
+				E24009FC20E4D04E00C0CA82 /* DronKeychainTest.swift */,
 				E26E552020AABFD3005B541D /* DronTests.swift */,
 				E26E552220AABFD3005B541D /* Info.plist */,
 			);
@@ -561,7 +566,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24009FF20E4D09F00C0CA82 /* DronAccount.swift in Sources */,
+				E24009FD20E4D04E00C0CA82 /* DronKeychainTest.swift in Sources */,
 				E26E552120AABFD3005B541D /* DronTests.swift in Sources */,
+				E24009FE20E4D07C00C0CA82 /* DronKeychainManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -766,6 +774,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KR6V794JNC;
 				INFOPLIST_FILE = DronTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DMTech.DronTests;
@@ -783,6 +792,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KR6V794JNC;
 				INFOPLIST_FILE = DronTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DMTech.DronTests;
