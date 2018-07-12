@@ -167,12 +167,17 @@ class DronServerProvider : DronServerProviderProtocol {
     }
     
     func getMissionInfo() {
-        injection?.dronNetworkService.getWithURL(url: missionInfoEndpoint(missionId: self.currentSOSRequest!.requestId), params: nil, completion: { (response, error) -> (Void) in
+        weak var missionVC: MissionInfoViewController?
+       // http://52.174.139.191:8080/drone-server-be/account/EBF91021-4CFD-4358-A937-D600682F4423/mission/inprogress
+        // _ = (injection?.dronKeychainManager.getUserID())!
+        injection?.dronNetworkService.getWithURL(url: missionInfoEndpoint(deviceId: "EBF91021-4CFD-4358-A937-D600682F4423"), params: nil, completion: { (response, error) -> (Void) in
             if error == nil {
                 do {
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .iso8601
                     let missionInfoDTO =  try decoder.decode(DronMissionInfoDTO.self, from:response!)
+                    missionVC = MissionInfoViewController()
+                    missionVC?.missionInfoDTO = missionInfoDTO
                     print(missionInfoDTO)
                 }
                 catch let jsonErr {

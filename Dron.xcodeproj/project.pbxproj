@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11A48DDD20F741D000FF83D7 /* DronMissionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */; };
 		11D11F3920F620CC0042206C /* MissionInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D11F3820F620CC0042206C /* MissionInfoViewController.swift */; };
 		11D11F3B20F63DE40042206C /* DronMissionInfoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D11F3A20F63DE40042206C /* DronMissionInfoDTO.swift */; };
 		616166953999642549D3ADB1 /* Pods_DronTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD14226EB191A900D3A3401 /* Pods_DronTests.framework */; };
@@ -63,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoView.swift; sourceTree = "<group>"; };
 		11D11F3820F620CC0042206C /* MissionInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionInfoViewController.swift; sourceTree = "<group>"; };
 		11D11F3A20F63DE40042206C /* DronMissionInfoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoDTO.swift; sourceTree = "<group>"; };
 		1DD14226EB191A900D3A3401 /* Pods_DronTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DronTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				11D11F3820F620CC0042206C /* MissionInfoViewController.swift */,
+				11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */,
 			);
 			path = MissionInfoViewController;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 				E28FF3AA20AF08CB00E44158 /* DronAccountTableViewCell.swift in Sources */,
 				E28FF3B820B5A4F200E44158 /* DronSosRequestStatusDTO.swift in Sources */,
 				E26E554F20AC5C2E005B541D /* DronStatusOutDTO.swift in Sources */,
+				11A48DDD20F741D000FF83D7 /* DronMissionInfoView.swift in Sources */,
 				E28FF3B120B447C100E44158 /* DronUpdatingLocation.swift in Sources */,
 				E26E554B20AC508B005B541D /* DronMissionDTO.swift in Sources */,
 				E26E555220AC6CFC005B541D /* InjectorContainer.swift in Sources */,
