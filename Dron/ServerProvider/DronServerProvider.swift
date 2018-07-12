@@ -27,6 +27,7 @@ protocol DronServerProviderProtocol {
     
     func addSosRequest(location: CLLocationCoordinate2D) -> Void
     func cancelSosRequest() -> Void
+    func getMissionInfo()
 }
 
 
@@ -110,6 +111,9 @@ class DronServerProvider : DronServerProviderProtocol {
                     let statusDTO =  try JSONDecoder().decode(DronSosRequestStatusDTO.self, from: responce!)
                     self.currentSOSRequest = statusDTO
                     print(statusDTO);
+                    if (self.currentSOSRequest != nil) {
+                        self.getMissionInfo()
+                    }
                 }
                 catch let jsonErr {
                     print("Error serializing json", jsonErr)
@@ -162,6 +166,22 @@ class DronServerProvider : DronServerProviderProtocol {
         }
     }
     
+    func getMissionInfo() {
+        injection?.dronNetworkService.getWithURL(url: missionInfoEndpoint(missionId: self.currentSOSRequest!.requestId), params: nil, completion: { (response, error) -> (Void) in
+            if error == nil {
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    let missionInfoDTO =  try decoder.decode(DronMissionInfoDTO.self, from:response!)
+                    print(missionInfoDTO)
+                }
+                catch let jsonErr {
+                    print("Error serializing json", jsonErr)
+                }
+            }
+            
+        })
+    }
     
     func queryItems(dictionary: [String:String]) -> [URLQueryItem] {
         return dictionary.map {
