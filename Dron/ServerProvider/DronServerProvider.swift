@@ -27,7 +27,7 @@ protocol DronServerProviderProtocol {
     
     func addSosRequest(location: CLLocationCoordinate2D) -> Void
     func cancelSosRequest() -> Void
-    func getMissionInfo()
+    func getMissionInfoDTO() -> DronMissionInfoDTO?
 }
 
 
@@ -35,6 +35,7 @@ class DronServerProvider : DronServerProviderProtocol {
     
     var injection : DronServerProviderInjection?
     var currentSOSRequest : DronSosRequestStatusDTO?
+    var missionInfoDTO: DronMissionInfoDTO?
     
     init(aInjection:DronServerProviderInjection) {
         injection = aInjection;
@@ -112,7 +113,7 @@ class DronServerProvider : DronServerProviderProtocol {
                     self.currentSOSRequest = statusDTO
                     print(statusDTO);
                     if (self.currentSOSRequest != nil) {
-                        self.getMissionInfo()
+                        self.getCurrentMissionInfo()
                     }
                 }
                 catch let jsonErr {
@@ -166,8 +167,7 @@ class DronServerProvider : DronServerProviderProtocol {
         }
     }
     
-    func getMissionInfo() {
-        weak var missionVC: MissionInfoViewController?
+    func getCurrentMissionInfo() {
        // http://52.174.139.191:8080/drone-server-be/account/EBF91021-4CFD-4358-A937-D600682F4423/mission/inprogress
         // _ = (injection?.dronKeychainManager.getUserID())!
         injection?.dronNetworkService.getWithURL(url: missionInfoEndpoint(deviceId: "EBF91021-4CFD-4358-A937-D600682F4423"), params: nil, completion: { (response, error) -> (Void) in
@@ -176,8 +176,7 @@ class DronServerProvider : DronServerProviderProtocol {
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .iso8601
                     let missionInfoDTO =  try decoder.decode(DronMissionInfoDTO.self, from:response!)
-                    missionVC = MissionInfoViewController()
-                    missionVC?.missionInfoDTO = missionInfoDTO
+                    self.missionInfoDTO = missionInfoDTO
                     print(missionInfoDTO)
                 }
                 catch let jsonErr {
@@ -186,6 +185,10 @@ class DronServerProvider : DronServerProviderProtocol {
             }
             
         })
+    }
+    
+    func getMissionInfoDTO() -> DronMissionInfoDTO? {
+        return self.missionInfoDTO
     }
     
     func queryItems(dictionary: [String:String]) -> [URLQueryItem] {

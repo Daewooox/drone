@@ -9,7 +9,7 @@
 import Foundation
 
 struct DronMissionInfoDTO {
-    let id: UInt64?
+    let id: UInt64
     let accountId: UInt64
     let droneId: UInt64
     let locations: [DronLocationDTO]
@@ -29,7 +29,7 @@ struct DronMissionInfoDTO {
 extension DronMissionInfoDTO: Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decodeIfPresent(UInt64.self, forKey: .id)
+        id = try values.decode(UInt64.self, forKey: .id)
         accountId = try values.decode(UInt64.self, forKey: .accountId)
         droneId = try values.decode(UInt64.self, forKey: .droneId)
         locations = try values.decode([DronLocationDTO].self, forKey: .locations)
