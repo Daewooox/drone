@@ -13,6 +13,20 @@ import MapKit
 class MissionInfoViewController: UIViewController, MKMapViewDelegate{
     var mapView: MKMapView?
     var dronMissionInfoView: UIView?
+    lazy var noMissionLabel: UILabel = {
+        let label = UILabel()
+        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.regular)]
+        let attText = NSMutableAttributedString(string: NSLocalizedString("Mission not assigned", comment: "Mission not assigned"), attributes: attrs)
+        label.attributedText = attText
+        label.textAlignment = NSTextAlignment.center;
+        label.backgroundColor = UIColor.white
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 20
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderWidth = 1
+        return label
+    }()
+    
     var missionInfoDTO: DronMissionInfoDTO?
     
     override func viewWillAppear(_ animated: Bool) {
@@ -23,22 +37,26 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
     }
     
     func setupUI() {
-        mapView = MKMapView(frame: CGRect.zero)
-        mapView?.translatesAutoresizingMaskIntoConstraints = false
-        mapView?.backgroundColor = UIColor.clear
-        mapView?.delegate = self
-        
-        self.view.addSubview(mapView!)
-        
-        mapView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
-        mapView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-        mapView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-        mapView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-        
+        self.view.backgroundColor = UIColor.ViewController.background
         if (missionInfoDTO != nil) {
+            mapView = MKMapView(frame: CGRect.zero)
+            mapView?.translatesAutoresizingMaskIntoConstraints = false
+            mapView?.backgroundColor = UIColor.clear
+            mapView?.delegate = self
+            self.view.addSubview(mapView!)
+            
+            mapView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+            mapView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+            mapView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+            mapView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            
             dronMissionInfoView = DronMissionInfoView(model: missionInfoDTO)
             dronMissionInfoView?.translatesAutoresizingMaskIntoConstraints = false
             dronMissionInfoView?.backgroundColor = UIColor.white
+            dronMissionInfoView?.layer.shadowColor = UIColor.black.cgColor
+            dronMissionInfoView?.layer.shadowOpacity = 1
+            dronMissionInfoView?.layer.shadowOffset = CGSize.zero
+            dronMissionInfoView?.layer.shadowRadius = 10
             self.view.addSubview(dronMissionInfoView!)
             
             dronMissionInfoView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
@@ -47,7 +65,12 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
             dronMissionInfoView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
             addPointsToMap()
         } else {
-            InjectorContainer.shared.dronUIManager.showSuccessBanner(text: NSLocalizedString("No active mission for this account", comment: "No active mission for this account"))
+            self.view.addSubview(self.noMissionLabel)
+            noMissionLabel.translatesAutoresizingMaskIntoConstraints = false
+            noMissionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            noMissionLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            noMissionLabel.widthAnchor.constraint(equalToConstant: 320).isActive = true
+            noMissionLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
         }
     }
     
