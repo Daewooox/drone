@@ -20,7 +20,7 @@ class DronMissionInfoView: UIView {
         let stackView = UIStackView(frame: self.bounds)
         stackView.alignment = .fill
         stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.backgroundColor = UIColor.white
         
@@ -59,10 +59,9 @@ class DronMissionInfoView: UIView {
         self.addSubview(stack)
         
         stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30).isActive = true
-        stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 30).isActive = true
+        stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30).isActive = true
         stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 25).isActive = true
-        stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 25).isActive = true
-        
+        stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -25).isActive = true
     }
     
     func setupLabels() {
@@ -70,7 +69,15 @@ class DronMissionInfoView: UIView {
         self.accountIdLabel.attributedText = self.formatedText(normalText: "\(String(describing: self.missionInfoViewModel!.accountId))", boldText: NSLocalizedString("Account id: ", comment: "Account id: "))
         self.droneIdLabel.attributedText = self.formatedText(normalText: "\(String(describing: self.missionInfoViewModel!.droneId))", boldText: NSLocalizedString("Drone id: ", comment: "Drone id: "))
         self.statusLabel.attributedText = self.formatedText(normalText: (self.missionInfoViewModel!.status), boldText: NSLocalizedString("Status: ", comment: "Status: "))
-        self.createdAtLabel.attributedText = self.formatedText(normalText: "\(Date(timeIntervalSince1970: Double(self.missionInfoViewModel!.date)))", boldText: NSLocalizedString("Created at: ", comment: "Created at: "))
+        
+        let date = Date(timeIntervalSince1970: Double(self.missionInfoViewModel!.date)/1000)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.medium
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeZone = TimeZone.ReferenceType.default
+        let localDate = dateFormatter.string(from: date)
+        self.createdAtLabel.attributedText = self.formatedText(normalText: localDate, boldText: NSLocalizedString("Created at: ", comment: "Created at: "))
+        self.idLabel.sizeToFit()
     }
     
     func formatedText(normalText: String, boldText: String) -> NSMutableAttributedString {

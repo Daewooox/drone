@@ -14,11 +14,12 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
     var mapView: MKMapView?
     var dronMissionInfoView: UIView?
     var missionInfoDTO: DronMissionInfoDTO?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.missionInfoDTO = InjectorContainer.shared.dronServerProvider.getMissionInfoDTO()
         setupUI()
+        setupMapView()
     }
     
     func setupUI() {
@@ -35,12 +36,6 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
         mapView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
         if (missionInfoDTO != nil) {
-            let coordinate = missionInfoDTO?.locations.last;
-            mapView?.centerCoordinate = CLLocationCoordinate2D(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!)
-            let zoomLevel = log2(360 * Double(self.view.frame.size.width) / ((mapView?.region.span.longitudeDelta)! * 128))
-            let span = MKCoordinateSpanMake(0, 360 / pow(2, Double(zoomLevel)) * Double(self.view.frame.size.width) / 256)
-            self.mapView?.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!), span), animated: false);
-
             dronMissionInfoView = DronMissionInfoView(model: missionInfoDTO)
             dronMissionInfoView?.translatesAutoresizingMaskIntoConstraints = false
             dronMissionInfoView?.backgroundColor = UIColor.white
@@ -48,12 +43,29 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
             
             dronMissionInfoView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
             dronMissionInfoView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-            dronMissionInfoView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.bounds.size.height / 1.7).isActive = true
+            dronMissionInfoView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.bounds.size.height / 1.5).isActive = true
             dronMissionInfoView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
             addPointsToMap()
+        } else {
+            InjectorContainer.shared.dronUIManager.showSuccessBanner(text: NSLocalizedString("No active mission for this account", comment: "No active mission for this account"))
         }
-        
-        
+    }
+    
+    func setupMapView() {
+        if (missionInfoDTO != nil) {
+            let coordinate = missionInfoDTO?.locations.last;
+            mapView?.centerCoordinate = CLLocationCoordinate2D(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!)
+            let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!), span: MKCoordinateSpan(latitudeDelta: 0.9, longitudeDelta: 0.9))
+            self.mapView?.setRegion(region, animated: false)
+            
+            var anotations = [MKAnnotation]()
+            for location in (missionInfoDTO?.locations)! {
+                let anotation = MKPointAnnotation()
+                anotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                anotations.append(anotation)
+            }
+            self.mapView?.addAnnotations(anotations)
+        }
     }
     
     func addPointsToMap() {
