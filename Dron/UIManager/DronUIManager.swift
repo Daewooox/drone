@@ -33,7 +33,7 @@ class DronUIManager : DronUIManagerProtocol {
         let tabbarConroller : UITabBarController = UITabBarController()
         let dronVC: UIViewController = DronControlViewController();
         let accountVC: UIViewController = DronAccountViewController();
-        let missionVC: UIViewController = MissionInfoViewController();
+        let missionVC: UIViewController = DronMissionInfoViewController();
         let accountNavVC : UINavigationController = UINavigationController(rootViewController: accountVC);
         let missionNavVC : UINavigationController = UINavigationController(rootViewController: missionVC);
         
@@ -54,8 +54,8 @@ class DronUIManager : DronUIManagerProtocol {
         missionImage = missionImage.withRenderingMode(.alwaysOriginal)
         missionSelImage = missionSelImage.withRenderingMode(.alwaysOriginal)
         
-        missionNavVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Mission information", comment: "Mission information"), image: missionImage, selectedImage: missionSelImage)
-        missionVC.title = NSLocalizedString("Mission information", comment: "Mission information")
+        missionNavVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Mission", comment: "Mission"), image: missionImage, selectedImage: missionSelImage)
+        missionVC.title = NSLocalizedString("Mission", comment: "Mission")
         
         var dronImage : UIImage  = UIImage(named: "icon-drone-inactive-")!
         dronImage = dronImage.withRenderingMode(.alwaysOriginal)

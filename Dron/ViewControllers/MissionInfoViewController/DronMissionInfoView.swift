@@ -10,36 +10,18 @@ import UIKit
 
 class DronMissionInfoView: UIView {
     
-    var idLabel : UILabel = UILabel()
-    var accountIdLabel : UILabel = UILabel()
-    var droneIdLabel : UILabel = UILabel()
-    var statusLabel : UILabel = UILabel()
-    var createdAtLabel : UILabel = UILabel()
-    
-    lazy var stack: UIStackView = {
-        let stackView = UIStackView(frame: self.bounds)
-        stackView.alignment = .fill
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.backgroundColor = UIColor.white
-        
-        stackView.addArrangedSubview(self.idLabel)
-        stackView.addArrangedSubview(self.accountIdLabel)
-        stackView.addArrangedSubview(self.droneIdLabel)
-        stackView.addArrangedSubview(self.statusLabel)
-        stackView.addArrangedSubview(self.createdAtLabel)
-        return stackView
-    }()
-    
-    var missionInfoViewModel : DronMissionInfoDTO?
-    
-    init(model: DronMissionInfoDTO?) {
+    var tableView : UITableView?
+
+    override init(frame: CGRect) {
         super.init(frame: CGRect.zero)
-        self.missionInfoViewModel = model
-        
+    }
+    init(model: DronMissionInfoViewModel) {
+        super.init(frame: CGRect.zero)
+        self.tableView = UITableView(frame: CGRect.zero)
+        self.tableView?.dataSource = model
+        self.tableView?.delegate = model
+        self.tableView?.tableFooterView = UIView(frame: .zero)
         self.setupUI()
-        self.setupLabels()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,37 +38,27 @@ class DronMissionInfoView: UIView {
         }
         self.backgroundColor = UIColor.white
         self.layer.borderWidth = 1
-        self.addSubview(stack)
-        
-        stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30).isActive = true
-        stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30).isActive = true
-        stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 25).isActive = true
-        stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -25).isActive = true
-    }
-    
-    func setupLabels() {
-        self.idLabel.attributedText = self.formatedText(normalText: "\(String(describing: self.missionInfoViewModel!.id))", boldText: NSLocalizedString("Last mission id: ", comment: "Last mission id: "))
-        self.accountIdLabel.attributedText = self.formatedText(normalText: "\(String(describing: self.missionInfoViewModel!.accountId))", boldText: NSLocalizedString("Account id: ", comment: "Account id: "))
-        self.droneIdLabel.attributedText = self.formatedText(normalText: "\(String(describing: self.missionInfoViewModel!.droneId))", boldText: NSLocalizedString("Drone id: ", comment: "Drone id: "))
-        self.statusLabel.attributedText = self.formatedText(normalText: (self.missionInfoViewModel!.status), boldText: NSLocalizedString("Status: ", comment: "Status: "))
-        
-        let date = Date(timeIntervalSince1970: Double(self.missionInfoViewModel!.date)/1000)
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = DateFormatter.Style.medium
-        dateFormatter.dateStyle = DateFormatter.Style.medium
-        dateFormatter.timeZone = TimeZone.ReferenceType.default
-        let localDate = dateFormatter.string(from: date)
-        self.createdAtLabel.attributedText = self.formatedText(normalText: localDate, boldText: NSLocalizedString("Created at: ", comment: "Created at: "))
-        self.idLabel.sizeToFit()
-    }
-    
-    func formatedText(normalText: String, boldText: String) -> NSMutableAttributedString {
-        let boldAttrs: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)]
-        let normAttrs: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.regular)]
-        let normalAttText = NSMutableAttributedString(string: normalText, attributes: normAttrs)
-        let boldAttText = NSMutableAttributedString(string: boldText, attributes: boldAttrs)
-        boldAttText.append(normalAttText)
-        return boldAttText
-    }
 
+        tableView?.translatesAutoresizingMaskIntoConstraints = false
+        tableView?.backgroundColor = UIColor.clear
+        tableView?.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView?.isUserInteractionEnabled = false
+        tableView?.alwaysBounceVertical = false
+        tableView?.isScrollEnabled = false
+        tableView?.rowHeight = UITableViewAutomaticDimension
+        tableView?.estimatedRowHeight = 25
+        tableView?.register(DronMissionInfoTableViewCell.self, forCellReuseIdentifier: String.init(describing: DronMissionInfoTableViewCell.self))
+        self.addSubview(tableView!)
+        self.tableView?.reloadData()
+        self.tableView?.layoutIfNeeded()
+
+        tableView?.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30).isActive = true
+        tableView?.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30).isActive = true
+        tableView?.topAnchor.constraint(equalTo: self.topAnchor, constant: 25).isActive = true
+        tableView?.heightAnchor.constraint(equalToConstant: self.tableView!.contentSize.height).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.tableView!.contentSize.height).isActive = true
+
+    }
+    
 }
+

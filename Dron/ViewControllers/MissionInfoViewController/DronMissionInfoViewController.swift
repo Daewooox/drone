@@ -1,8 +1,8 @@
 //
-//  MissionInfoViewController.swift
+//  DronMissionInfoViewController.swift
 //  Dron
 //
-//  Created by Alexander on 11.07.18.
+//  Created by Alexander on 18.07.18.
 //  Copyright © 2018 DMTech. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 
-class MissionInfoViewController: UIViewController, MKMapViewDelegate{
+class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
     var mapView: MKMapView?
     var dronMissionInfoView: UIView?
     lazy var noMissionLabel: UILabel = {
@@ -28,14 +28,20 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
     }()
     
     var missionInfoDTO: DronMissionInfoDTO?
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if (mapView != nil) {
+            self.mapView?.removeFromSuperview()
+            self.dronMissionInfoView?.removeFromSuperview()
+            self.mapView = nil
+            self.dronMissionInfoView = nil
+        }
         self.missionInfoDTO = InjectorContainer.shared.dronServerProvider.getMissionInfoDTO()
         setupUI()
         setupMapView()
     }
-    
+
     func setupUI() {
         self.view.backgroundColor = UIColor.ViewController.background
         if (missionInfoDTO != nil) {
@@ -45,12 +51,8 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
             mapView?.delegate = self
             self.view.addSubview(mapView!)
             
-            mapView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
-            mapView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-            mapView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-            mapView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            
-            dronMissionInfoView = DronMissionInfoView(model: missionInfoDTO)
+            let dronInfoViewModel = DronMissionInfoViewModel(missionInfoViewModel: missionInfoDTO!)
+            dronMissionInfoView = DronMissionInfoView(model: dronInfoViewModel)
             dronMissionInfoView?.translatesAutoresizingMaskIntoConstraints = false
             dronMissionInfoView?.backgroundColor = UIColor.white
             dronMissionInfoView?.layer.shadowColor = UIColor.black.cgColor
@@ -59,10 +61,15 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
             dronMissionInfoView?.layer.shadowRadius = 10
             self.view.addSubview(dronMissionInfoView!)
             
+            mapView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+            mapView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+            mapView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+            mapView?.bottomAnchor.constraint(equalTo: self.dronMissionInfoView!.topAnchor, constant: 10).isActive = true
+            
             dronMissionInfoView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
             dronMissionInfoView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-            dronMissionInfoView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.view.bounds.size.height / 1.5).isActive = true
             dronMissionInfoView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            
             addPointsToMap()
         } else {
             self.view.addSubview(self.noMissionLabel)
@@ -125,4 +132,6 @@ class MissionInfoViewController: UIViewController, MKMapViewDelegate{
         return annotationView
     }
     
+
 }
+
