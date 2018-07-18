@@ -27,6 +27,7 @@ protocol DronServerProviderProtocol {
     
     func addSosRequest(location: CLLocationCoordinate2D) -> Void
     func cancelSosRequest() -> Void
+    func getMissionInfoDTO() -> DronMissionInfoDTO?
 }
 
 
@@ -34,6 +35,7 @@ class DronServerProvider : DronServerProviderProtocol {
     
     var injection : DronServerProviderInjection?
     var currentSOSRequest : DronSosRequestStatusDTO?
+    var missionInfoDTO: DronMissionInfoDTO?
     
     init(aInjection:DronServerProviderInjection) {
         injection = aInjection;
@@ -110,6 +112,9 @@ class DronServerProvider : DronServerProviderProtocol {
                     let statusDTO =  try JSONDecoder().decode(DronSosRequestStatusDTO.self, from: responce!)
                     self.currentSOSRequest = statusDTO
                     print(statusDTO);
+                    if (self.currentSOSRequest != nil) {
+                        self.getCurrentMissionInfo()
+                    }
                 }
                 catch let jsonErr {
                     print("Error serializing json", jsonErr)
@@ -132,6 +137,7 @@ class DronServerProvider : DronServerProviderProtocol {
             if error == nil {
                 self.currentSOSRequest = nil
                 self.injection?.dronUIManager.showSuccessBanner(text: "SOS was canceled successfully")
+                self.missionInfoDTO = nil
             }
             else {
                 self.injection?.dronUIManager.showUnsuccessBanner(text: "SOS was canceled unsuccessfully")
@@ -162,6 +168,29 @@ class DronServerProvider : DronServerProviderProtocol {
         }
     }
     
+    func getCurrentMissionInfo() {
+    //  id for test
+    // http://52.174.139.191:8080/drone-server-be/account/EBF91021-4CFD-4358-A937-D600682F4423/mission/inprogress
+        injection?.dronNetworkService.getWithURL(url: missionInfoEndpoint(deviceId: (injection?.dronKeychainManager.getUserID())!), params: nil, completion: { (response, error) -> (Void) in
+            if error == nil {
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    let missionInfoDTO =  try decoder.decode(DronMissionInfoDTO.self, from:response!)
+                    self.missionInfoDTO = missionInfoDTO
+                    print(missionInfoDTO)
+                }
+                catch let jsonErr {
+                    print("Error serializing json", jsonErr)
+                }
+            }
+            
+        })
+    }
+    
+    func getMissionInfoDTO() -> DronMissionInfoDTO? {
+        return self.missionInfoDTO
+    }
     
     func queryItems(dictionary: [String:String]) -> [URLQueryItem] {
         return dictionary.map {

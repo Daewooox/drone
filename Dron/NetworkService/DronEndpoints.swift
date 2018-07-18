@@ -71,3 +71,7 @@ func getDronesEndpoint() -> String {
 func addDroneEndpoint() -> String {
     return dronBaseEndpoint + "/drone"
 }
+
+func missionInfoEndpoint(deviceId: String) -> String {
+    return "\(dronBaseEndpoint)account/\(deviceId)/mission/inprogress"
+}

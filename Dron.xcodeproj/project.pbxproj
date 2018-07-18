@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1165425D20FF1F6100B62C21 /* DronMissionInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1165425C20FF1F6100B62C21 /* DronMissionInfoViewController.swift */; };
+		11670F7E20FDEB380033063F /* DronMissionInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11670F7D20FDEB380033063F /* DronMissionInfoViewModel.swift */; };
+		11670F8020FE1B550033063F /* DronMissionInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11670F7F20FE1B550033063F /* DronMissionInfoTableViewCell.swift */; };
+		11A48DDD20F741D000FF83D7 /* DronMissionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */; };
+		11D11F3B20F63DE40042206C /* DronMissionInfoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D11F3A20F63DE40042206C /* DronMissionInfoDTO.swift */; };
 		616166953999642549D3ADB1 /* Pods_DronTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD14226EB191A900D3A3401 /* Pods_DronTests.framework */; };
 		7416525C1981F618C33E51DE /* Pods_DronUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40769A75C005677629F44D43 /* Pods_DronUITests.framework */; };
 		905EEF4DDFDCD6D06E278FE4 /* Pods_Dron.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46CCD6325373D51E1DE59398 /* Pods_Dron.framework */; };
@@ -61,6 +66,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1165425C20FF1F6100B62C21 /* DronMissionInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoViewController.swift; sourceTree = "<group>"; };
+		11670F7D20FDEB380033063F /* DronMissionInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoViewModel.swift; sourceTree = "<group>"; };
+		11670F7F20FE1B550033063F /* DronMissionInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoTableViewCell.swift; sourceTree = "<group>"; };
+		11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoView.swift; sourceTree = "<group>"; };
+		11D11F3A20F63DE40042206C /* DronMissionInfoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoDTO.swift; sourceTree = "<group>"; };
 		1DD14226EB191A900D3A3401 /* Pods_DronTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DronTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3979DD33BB2D072570841E07 /* Pods-DronTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DronTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DronTests/Pods-DronTests.debug.xcconfig"; sourceTree = "<group>"; };
 		40769A75C005677629F44D43 /* Pods_DronUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DronUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +145,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11D11F3720F620880042206C /* MissionInfoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */,
+				11670F7D20FDEB380033063F /* DronMissionInfoViewModel.swift */,
+				11670F7F20FE1B550033063F /* DronMissionInfoTableViewCell.swift */,
+				1165425C20FF1F6100B62C21 /* DronMissionInfoViewController.swift */,
+			);
+			path = MissionInfoViewController;
+			sourceTree = "<group>";
+		};
 		5BEA074393C763939CFC76AF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +268,7 @@
 				E28FF3B020B447C100E44158 /* DronUpdatingLocation.swift */,
 				E28FF3B520B4641800E44158 /* DronAccount.swift */,
 				E28FF3B720B5A4F200E44158 /* DronSosRequestStatusDTO.swift */,
+				11D11F3A20F63DE40042206C /* DronMissionInfoDTO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -272,6 +294,7 @@
 		E26E555820AEC2C9005B541D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				11D11F3720F620880042206C /* MissionInfoViewController */,
 				E26E555A20AEC2D9005B541D /* DronControlViewController */,
 				E26E555920AEC2D7005B541D /* AccountViewController */,
 			);
@@ -537,6 +560,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E26E550E20AABFD3005B541D /* ViewController.swift in Sources */,
+				11670F7E20FDEB380033063F /* DronMissionInfoViewModel.swift in Sources */,
 				E28FF3A820AF010400E44158 /* DronAccountViewModel.swift in Sources */,
 				E26E554720AC29B5005B541D /* DronDTO.swift in Sources */,
 				E28FF3AD20B2EDBC00E44158 /* ColorExtension.swift in Sources */,
@@ -544,16 +568,20 @@
 				E28FF3B420B4611300E44158 /* DronKeychainManager.swift in Sources */,
 				E28FF3B620B4641800E44158 /* DronAccount.swift in Sources */,
 				E28FF3AF20B4104100E44158 /* DronLocationManager.swift in Sources */,
+				11D11F3B20F63DE40042206C /* DronMissionInfoDTO.swift in Sources */,
 				E26E554120AC2201005B541D /* DronEndpoints.swift in Sources */,
 				E28FF3AA20AF08CB00E44158 /* DronAccountTableViewCell.swift in Sources */,
 				E28FF3B820B5A4F200E44158 /* DronSosRequestStatusDTO.swift in Sources */,
 				E26E554F20AC5C2E005B541D /* DronStatusOutDTO.swift in Sources */,
+				11A48DDD20F741D000FF83D7 /* DronMissionInfoView.swift in Sources */,
 				E28FF3B120B447C100E44158 /* DronUpdatingLocation.swift in Sources */,
+				11670F8020FE1B550033063F /* DronMissionInfoTableViewCell.swift in Sources */,
 				E26E554B20AC508B005B541D /* DronMissionDTO.swift in Sources */,
 				E26E555220AC6CFC005B541D /* InjectorContainer.swift in Sources */,
 				E26E555E20AEC4A0005B541D /* DronAccountViewController.swift in Sources */,
 				E26E555420AD6FE7005B541D /* DronLocationDTO.swift in Sources */,
 				E26E550C20AABFD3005B541D /* AppDelegate.swift in Sources */,
+				1165425D20FF1F6100B62C21 /* DronMissionInfoViewController.swift in Sources */,
 				E28FF3A620AF00BC00E44158 /* DronAccountView.swift in Sources */,
 				E26E554D20AC5BB2005B541D /* DronStatusInDTO.swift in Sources */,
 				E26E553B20AAC4C3005B541D /* DronNetworkService.swift in Sources */,
