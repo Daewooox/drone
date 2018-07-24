@@ -16,6 +16,7 @@ protocol DronLocationManagerInjection {
 protocol DronLocationManagerProtocol {
     func start() -> Void
     func getLastLocation() -> CLLocationCoordinate2D
+    func getAuthStatus() -> CLAuthorizationStatus
 }
 
 class DronLocationManager: NSObject, DronLocationManagerProtocol, CLLocationManagerDelegate {
@@ -53,7 +54,6 @@ class DronLocationManager: NSObject, DronLocationManagerProtocol, CLLocationMana
         self.injection?.dronServerProvider.sendUpdatingLocation(location: userLocation.coordinate)
     }
     
-    
     func getLastLocation() -> CLLocationCoordinate2D {
         if (lastLocation != nil) {
             return (lastLocation?.coordinate)!
@@ -63,9 +63,11 @@ class DronLocationManager: NSObject, DronLocationManagerProtocol, CLLocationMana
         }
     }
     
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
-    {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error \(error)")
+    }
+    
+    func getAuthStatus() -> CLAuthorizationStatus {
+        return CLLocationManager.authorizationStatus()
     }
 }
