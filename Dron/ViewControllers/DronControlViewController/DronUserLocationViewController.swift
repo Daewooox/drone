@@ -27,7 +27,7 @@ class DronUserLocationViewController: UIViewController {
         
         goButton.translatesAutoresizingMaskIntoConstraints = false
         goButton.backgroundColor = UIColor.green
-        goButton.setTitle("GO", for: .normal)
+        goButton.setTitle(NSLocalizedString("GO", comment: "GO"), for: .normal)
         goButton.setTitleColor(UIColor.black, for: .normal)
         goButton.addTarget(self, action: #selector(goButtonTapped), for: .touchUpInside)
         self.view.addSubview(goButton)
@@ -68,7 +68,8 @@ class DronUserLocationViewController: UIViewController {
         annotation.coordinate = userLocation;
         let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
         CLGeocoder().reverseGeocodeLocation(location) { (placemarks, _) in
-            annotation.title = self.getAddressString(placemark: (placemarks?.first)!)
+            annotation.title = NSLocalizedString("Your address:", comment: "Your address:")
+            annotation.subtitle = self.getAddressString(placemark: (placemarks?.first)!)
             DispatchQueue.main.async {
                 self.mapView.selectAnnotation(self.mapView.annotations[0], animated: true)
             }
