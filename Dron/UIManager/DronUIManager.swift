@@ -18,11 +18,13 @@ protocol DronUIManagerProtocol {
     func loadMainUI() -> Void
     func showSuccessBanner(text: String) -> Void
     func showUnsuccessBanner(text: String) -> Void
+    func presentUserLocationVC()
 }
 
 
 class DronUIManager : DronUIManagerProtocol {
     
+    lazy var tabbarConroller = UITabBarController()
     var injection : DronUIManagerInjection?
     
     init(aInjection:DronUIManagerInjection) {
@@ -30,7 +32,6 @@ class DronUIManager : DronUIManagerProtocol {
     }
     
     func loadMainUI() -> Void {
-        let tabbarConroller : UITabBarController = UITabBarController()
         let dronVC: UIViewController = DronControlViewController();
         let accountVC: UIViewController = DronAccountViewController();
         let missionVC: UIViewController = DronMissionInfoViewController();
@@ -77,6 +78,31 @@ class DronUIManager : DronUIManagerProtocol {
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = UIColor.Navbar.tint
         UINavigationBar.appearance().barStyle = .black
+    }
+    
+    func presentUserLocationVC() {
+        checkAuthStatus()
+        let vc = DronUserLocationViewController()
+        tabbarConroller.present(vc, animated: true, completion: nil)
+    }
+    
+    func checkAuthStatus() {
+        let status = InjectorContainer.shared.dronLocationManager.getAuthStatus()
+        if status == .denied || status == .restricted {
+            let alert = UIAlertController(title: "Access to Location Services denied", message: "Please enable Location Services in Settings", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+                }
+            })
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            tabbarConroller.present(alert, animated: true, completion: nil)
+            return
+        }
     }
     
     func showSuccessBanner(text: String) -> Void {

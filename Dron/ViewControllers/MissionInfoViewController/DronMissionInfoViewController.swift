@@ -12,7 +12,9 @@ import MapKit
 
 class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
     var mapView: MKMapView?
-    var dronMissionInfoView: UIView?
+    var dronMissionInfoView: DronMissionInfoView?
+    var dronInfoViewModel: DronMissionInfoViewModel?
+    
     lazy var noMissionLabel: UILabel = {
         let label = UILabel()
         let attrs: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.regular)]
@@ -41,7 +43,7 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
         setupUI()
         setupMapView()
     }
-
+   
     func setupUI() {
         self.view.backgroundColor = UIColor.ViewController.background
         if (missionInfoDTO != nil) {
@@ -51,14 +53,11 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
             mapView?.delegate = self
             self.view.addSubview(mapView!)
             
-            let dronInfoViewModel = DronMissionInfoViewModel(missionInfoViewModel: missionInfoDTO!)
-            dronMissionInfoView = DronMissionInfoView(model: dronInfoViewModel)
+            dronInfoViewModel = DronMissionInfoViewModel(missionInfoViewModel: missionInfoDTO!)
+            dronMissionInfoView = DronMissionInfoView(model: dronInfoViewModel!)
+            dronInfoViewModel?.tableView = dronMissionInfoView?.tableView
             dronMissionInfoView?.translatesAutoresizingMaskIntoConstraints = false
             dronMissionInfoView?.backgroundColor = UIColor.white
-            dronMissionInfoView?.layer.shadowColor = UIColor.black.cgColor
-            dronMissionInfoView?.layer.shadowOpacity = 1
-            dronMissionInfoView?.layer.shadowOffset = CGSize.zero
-            dronMissionInfoView?.layer.shadowRadius = 10
             self.view.addSubview(dronMissionInfoView!)
             
             mapView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
@@ -79,6 +78,11 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
             noMissionLabel.widthAnchor.constraint(equalToConstant: 320).isActive = true
             noMissionLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        dronInfoViewModel?.tableView?.reloadData()
     }
     
     func setupMapView() {

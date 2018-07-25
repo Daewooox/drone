@@ -17,7 +17,7 @@ enum DronMissionInfoViewModelRowType: Int {
 }
 
 class DronMissionInfoViewModel: NSObject {
-
+    weak var tableView : UITableView?
     var rowsModel = [NSMutableAttributedString]()
     
     init(missionInfoViewModel: DronMissionInfoDTO) {

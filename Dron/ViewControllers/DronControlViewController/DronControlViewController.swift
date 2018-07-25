@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import CoreLocation
+import MapKit
 
-class DronControlViewController: UIViewController, UITextFieldDelegate {
+class DronControlViewController: UIViewController, UITextFieldDelegate, MKMapViewDelegate {
     
     let longitudeTextField: UITextField = UITextField()
     let latitudeTextField: UITextField = UITextField()
@@ -98,7 +99,8 @@ class DronControlViewController: UIViewController, UITextFieldDelegate {
     @objc func sosButtonTapped(_ sender: UIButton) -> Void {
         sender.backgroundColor = UIColor.DronButton.background
         sender.layer.borderColor = UIColor.DronButton.borderColor.cgColor
-        InjectorContainer.shared.dronServerProvider.addSosRequest(location: InjectorContainer.shared.dronLocationManager.getLastLocation())
+        InjectorContainer.shared.dronUIManager.presentUserLocationVC()
+        
 //        if let latitude = Double(latitudeTextField.text!), let longitude = Double(longitudeTextField.text!) {
 //            InjectorContainer.shared.dronServerProvider.addSosRequest(location: CLLocationCoordinate2DMake(latitude, longitude))
 //        }
