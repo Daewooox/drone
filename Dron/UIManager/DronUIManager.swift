@@ -90,14 +90,14 @@ class DronUIManager : DronUIManagerProtocol {
         let status = InjectorContainer.shared.dronLocationManager.getAuthStatus()
         if status == .denied || status == .restricted {
             let alert = UIAlertController(title: "Access to Location Services denied", message: "Please enable Location Services in Settings", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+            let ok = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: { (action) -> Void in
                 if #available(iOS 10.0, *) {
                     UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
                 } else {
                     UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
                 }
             })
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel") , style: .cancel, handler: nil)
             alert.addAction(ok)
             alert.addAction(cancel)
             tabbarConroller.present(alert, animated: true, completion: nil)
