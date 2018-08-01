@@ -15,8 +15,9 @@ protocol DronLocationManagerInjection {
 
 protocol DronLocationManagerProtocol {
     func start() -> Void
-    func getLastLocation() -> CLLocationCoordinate2D
+    func getLastLocation() -> CLLocationCoordinate2D?
     func getAuthStatus() -> CLAuthorizationStatus
+    func stop()
 }
 
 class DronLocationManager: NSObject, DronLocationManagerProtocol, CLLocationManagerDelegate {
@@ -36,8 +37,13 @@ class DronLocationManager: NSObject, DronLocationManagerProtocol, CLLocationMana
         locationManager.requestAlwaysAuthorization()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()
+            lastLocation = locationManager.location
             //locationManager.startUpdatingHeading()
         }
+    }
+    
+    func stop() {
+        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -54,13 +60,11 @@ class DronLocationManager: NSObject, DronLocationManagerProtocol, CLLocationMana
         self.injection?.dronServerProvider.sendUpdatingLocation(location: userLocation.coordinate)
     }
     
-    func getLastLocation() -> CLLocationCoordinate2D {
+    func getLastLocation() -> CLLocationCoordinate2D? {
         if (lastLocation != nil) {
             return (lastLocation?.coordinate)!
         }
-        else {
-            return CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        }
+        return nil
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
