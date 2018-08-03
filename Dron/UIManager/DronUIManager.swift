@@ -18,6 +18,7 @@ protocol DronUIManagerProtocol {
     func loadMainUI() -> Void
     func showSuccessBanner(text: String) -> Void
     func showUnsuccessBanner(text: String) -> Void
+    func showInfoBanner(text: String) -> Void
     func presentUserLocationVC()
 }
 
@@ -96,6 +97,13 @@ class DronUIManager : DronUIManagerProtocol {
         NotificationBannerQueue.default.removeAll()
         
         let banner = NotificationBanner(title: text, subtitle: "", style: .danger)
+        banner.show()
+    }
+    
+    func showInfoBanner(text: String) -> Void {
+        NotificationBannerQueue.default.removeAll()
+        
+        let banner = NotificationBanner(title: text, subtitle: "", style: .info)
         banner.show()
     }
 }

@@ -124,10 +124,11 @@ class DronUserLocationViewController: UIViewController {
                 annotation.title = NSLocalizedString("Your address:", comment: "Your address:")
                 annotation.subtitle = self.getAddressString(placemark: (placemarks?.first)!)
                 DispatchQueue.main.async {
+                    self.mapView.addAnnotation(annotation);
                     self.mapView.selectAnnotation(self.annotations.count > 1 ? self.mapView.annotations[1] : self.mapView.annotations[0], animated: true)
+                    self.mapView.setNeedsDisplay()
                 }
             }
-            mapView.addAnnotation(annotation);
         }
     }
     
@@ -150,6 +151,8 @@ class DronUserLocationViewController: UIViewController {
                 let location = mapView.convert(touchPoint, toCoordinateFrom: mapView)
                 if getDistanceFromCoordinates(firstCoordinate: userLocation!, secondCoordinate: location) <= 1000 {
                     setupMapViewWithAnnotation(userLocation: location)
+                } else {
+                    InjectorContainer.shared.dronUIManager.showInfoBanner(text: NSLocalizedString("This point is further than 1 km", comment: "This point is further than 1 km"))
                 }
             }
         }
@@ -180,12 +183,16 @@ extension DronUserLocationViewController: MKMapViewDelegate {
         
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
-            annotationView?.isEnabled = true
-            annotationView?.canShowCallout = true
         } else {
             annotationView?.annotation = annotation
         }
-        annotationView?.image = UIImage(named: "map-marker")
+        annotationView?.canShowCallout = true
+        annotationView?.isEnabled = true
+        if mapView.annotations.count > 1 {
+            annotationView?.image = UIImage(named: "map-marker")
+        } else {
+            annotationView?.image = UIImage(named: "map-marker-for-user")
+        }
         return annotationView
     }
     
