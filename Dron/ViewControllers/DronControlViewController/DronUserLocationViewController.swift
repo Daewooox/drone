@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Reachability
 
 class DronUserLocationViewController: UIViewController {
     
@@ -83,7 +84,7 @@ class DronUserLocationViewController: UIViewController {
     
     @objc func checkAuthStatus() {
         let status = InjectorContainer.shared.dronLocationManager.getAuthStatus()
-        if status == .denied || status == .restricted {
+        if status == .denied || status == .restricted || status == .notDetermined {
             goButton.isEnabled = false
             goButton.setTitleColor(UIColor.white, for: .normal)
             goButton.backgroundColor = UIColor.lightGray
@@ -203,13 +204,15 @@ extension DronUserLocationViewController: MKMapViewDelegate {
             annotationView?.image = UIImage(named: "map-marker-for-user")
         }
         
-        if annotation.isKind(of: MKUserLocation.self) {
+        if annotation.isKind(of: MKUserLocation.self) &&  Reachability()?.connection != .none {
             let location = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
             CLGeocoder().reverseGeocodeLocation(location) { (placemarks, _) in
-                mapView.userLocation.title = NSLocalizedString("Your address:", comment: "Your address:")
-                mapView.userLocation.subtitle = self.getAddressString(placemark: (placemarks?.first)!)
-                DispatchQueue.main.async {
-                    self.mapView.selectAnnotation(annotation, animated: true)
+                if placemarks != nil {
+                    mapView.userLocation.title = NSLocalizedString("Your address:", comment: "Your address:")
+                    mapView.userLocation.subtitle = self.getAddressString(placemark: (placemarks?.first)!)
+                    DispatchQueue.main.async {
+                        self.mapView.selectAnnotation(annotation, animated: true)
+                    }
                 }
             }
         }
