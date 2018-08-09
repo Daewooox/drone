@@ -61,6 +61,7 @@ class DronUserLocationViewController: UIViewController {
         mapView.backgroundColor = UIColor.clear
         mapView.delegate = self
         mapView.showsUserLocation = true
+        mapView.mapType = MKMapType.hybrid
         self.view.addSubview(mapView)
         
         mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
