@@ -13,11 +13,9 @@ import CoreLocation
 class DronUserLocationViewController: UIViewController {
     
     var userLocation: CLLocationCoordinate2D? = InjectorContainer.shared.dronLocationManager.getLastLocation()
-    
     lazy var closeButton = UIButton(frame: CGRect.zero)
     lazy var mapView = MKMapView(frame: CGRect.zero)
     lazy var goButton = UIButton(frame: CGRect.zero)
-    lazy var annotations = [MKAnnotation]()
     lazy var limitRegion: MKCoordinateRegion = {
         let regionRadius: CLLocationDistance = 1000
         var coordinateRegion = MKCoordinateRegionMakeWithDistance(mapView.centerCoordinate, regionRadius, regionRadius)
@@ -26,7 +24,10 @@ class DronUserLocationViewController: UIViewController {
         }
         return coordinateRegion
     }()
-    
+    lazy var longGesture: UIGestureRecognizer = {
+        return UILongPressGestureRecognizer(target: self, action: #selector(addNewPin(longGesture:)))
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -55,12 +56,11 @@ class DronUserLocationViewController: UIViewController {
         goButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         goButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(addNewPin(longGesture:)))
         mapView.addGestureRecognizer(longGesture)
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.backgroundColor = UIColor.clear
         mapView.delegate = self
-        mapView.setRegion(limitRegion, animated: true)
+        mapView.showsUserLocation = true
         self.view.addSubview(mapView)
         
         mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
@@ -86,9 +86,9 @@ class DronUserLocationViewController: UIViewController {
             goButton.isEnabled = false
             goButton.setTitleColor(UIColor.white, for: .normal)
             goButton.backgroundColor = UIColor.lightGray
-            userLocation = nil
-            annotations.removeAll()
             mapView.removeAnnotations(mapView.annotations)
+            longGesture.isEnabled = false
+            userLocation = nil
             InjectorContainer.shared.dronLocationManager.stop()
             let alert = UIAlertController(title: "Access to Location Services denied", message: "Please enable Location Services in Settings", preferredStyle: .alert)
             let ok = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: { (action) -> Void in
@@ -106,28 +106,33 @@ class DronUserLocationViewController: UIViewController {
             if userLocation == nil {
                 InjectorContainer.shared.dronLocationManager.start()
                 userLocation = InjectorContainer.shared.dronLocationManager.getLastLocation()
-                setupMapViewWithAnnotation(userLocation: userLocation)
+                limitRegion.center = userLocation!
+                mapView.setRegion(limitRegion, animated: true)
             }
+            longGesture.isEnabled = true
             goButton.isEnabled = true
             goButton.backgroundColor = UIColor.green
             goButton.setTitleColor(UIColor.black, for: .normal)
         }
     }
     
-    func setupMapViewWithAnnotation(userLocation: CLLocationCoordinate2D?) {
-        if let userLocation = userLocation {
-            let annotation = MKPointAnnotation();
-            annotation.coordinate = userLocation;
-            let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
-            self.annotations.append(annotation)
-            CLGeocoder().reverseGeocodeLocation(location) { (placemarks, _) in
-                annotation.title = NSLocalizedString("Your address:", comment: "Your address:")
-                annotation.subtitle = self.getAddressString(placemark: (placemarks?.first)!)
-                DispatchQueue.main.async {
-                    self.mapView.selectAnnotation(self.annotations.count > 1 ? self.mapView.annotations[1] : self.mapView.annotations[0], animated: true)
+    func setupMapViewWithAnnotation(userLocation: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation();
+        annotation.coordinate = userLocation;
+        let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
+        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, _) in
+            annotation.title = NSLocalizedString("Your address:", comment: "Your address:")
+            annotation.subtitle = self.getAddressString(placemark: (placemarks?.first)!)
+            DispatchQueue.main.async {
+                self.mapView.removeAnnotations(self.mapView.annotations)
+                self.mapView.addAnnotation(annotation);
+                for annotation in self.mapView.annotations {
+                    if annotation .isKind(of: MKPointAnnotation.self) {
+                        self.mapView.selectAnnotation(annotation, animated: true)
+                        self.mapView.setNeedsDisplay()
+                    }
                 }
             }
-            mapView.addAnnotation(annotation);
         }
     }
     
@@ -140,17 +145,13 @@ class DronUserLocationViewController: UIViewController {
     }
     
     @objc func addNewPin(longGesture : UIGestureRecognizer) {
-        if userLocation != nil {
-            if longGesture.state == UIGestureRecognizerState.began {
-                if (annotations.count > 1) {
-                    mapView.removeAnnotation(annotations[1])
-                    annotations.remove(at: 1)
-                }
-                let touchPoint = longGesture.location(in: mapView)
-                let location = mapView.convert(touchPoint, toCoordinateFrom: mapView)
-                if getDistanceFromCoordinates(firstCoordinate: userLocation!, secondCoordinate: location) <= 1000 {
-                    setupMapViewWithAnnotation(userLocation: location)
-                }
+        if longGesture.state == UIGestureRecognizerState.began {
+            let touchPoint = longGesture.location(in: mapView)
+            let location = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+            if getDistanceFromCoordinates(firstCoordinate: mapView.userLocation.coordinate, secondCoordinate: location) <= 1000 {
+                setupMapViewWithAnnotation(userLocation: location)
+            } else {
+                InjectorContainer.shared.dronUIManager.showInfoBanner(text: NSLocalizedString("This point is further than 1 km", comment: "This point is further than 1 km"))
             }
         }
     }
@@ -161,8 +162,17 @@ class DronUserLocationViewController: UIViewController {
     
     @objc func goButtonTapped() {
         self.dismiss(animated: true) {
-            let annotation = self.annotations.count > 1 ? self.mapView.annotations[1] : self.mapView.annotations[0]
-            InjectorContainer.shared.dronServerProvider.addSosRequest(location: annotation.coordinate)
+            var userCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+            if self.mapView.annotations.count > 1 {
+                for annotation in self.mapView.annotations {
+                    if annotation .isKind(of: MKPointAnnotation.self) {
+                        userCoordinate = annotation.coordinate
+                    }
+                }
+            } else {
+                userCoordinate = self.mapView.userLocation.coordinate
+            }
+            InjectorContainer.shared.dronServerProvider.addSosRequest(location: userCoordinate)
         }
     }
     
@@ -174,30 +184,45 @@ class DronUserLocationViewController: UIViewController {
 }
 
 extension DronUserLocationViewController: MKMapViewDelegate {
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {    
         let reuseIdentifier = "Pin"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
         
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
-            annotationView?.isEnabled = true
-            annotationView?.canShowCallout = true
         } else {
             annotationView?.annotation = annotation
         }
-        annotationView?.image = UIImage(named: "map-marker")
+        annotationView?.canShowCallout = true
+        annotationView?.isEnabled = true
+        if mapView.annotations.count > 1 {
+            annotationView?.image = UIImage(named: "map-marker")
+        } else {
+            annotationView?.image = UIImage(named: "map-marker-for-user")
+        }
+        
+        if annotation.isKind(of: MKUserLocation.self) {
+            let location = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
+            CLGeocoder().reverseGeocodeLocation(location) { (placemarks, _) in
+                mapView.userLocation.title = NSLocalizedString("Your address:", comment: "Your address:")
+                mapView.userLocation.subtitle = self.getAddressString(placemark: (placemarks?.first)!)
+                DispatchQueue.main.async {
+                    self.mapView.selectAnnotation(annotation, animated: true)
+                }
+            }
+        }
         return annotationView
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if let location = userLocation {
-            if annotations.count == 0 {
-                setupMapViewWithAnnotation(userLocation: location)
-            }
-            if getDistanceFromCoordinates(firstCoordinate: location, secondCoordinate: mapView.centerCoordinate) > 1000 {
+        if userLocation != nil {
+            if getDistanceFromCoordinates(firstCoordinate: mapView.userLocation.coordinate, secondCoordinate: mapView.centerCoordinate) > 1000 {
+                if mapView.userLocation.coordinate.latitude != 0 {
+                    limitRegion.center = mapView.userLocation.coordinate
+                }
                 mapView.setRegion(limitRegion, animated: true)
             }
         }
-        
     }
 }
