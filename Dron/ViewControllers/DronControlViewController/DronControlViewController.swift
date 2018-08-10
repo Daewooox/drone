@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreLocation
 import MapKit
+import Reachability
 
 enum DronSosButtonType: Int {
     case DronSosButtonTypeSos = 0,
@@ -19,8 +20,18 @@ enum DronSosButtonType: Int {
 class DronControlViewController: UIViewController, MKMapViewDelegate {
     
     lazy var sosButton = UIButton(type: .custom)
+    let reachability = Reachability()!
+    var currentButtonState : DronSosButtonType = .DronSosButtonTypeSos
     
     override func viewDidLoad() {
+        
+        do{
+            try reachability.startNotifier()
+        }catch{
+            print("could not start reachability notifier")
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
         
         self.view.backgroundColor = UIColor.ViewController.background
         
@@ -28,7 +39,6 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
         sosButton.translatesAutoresizingMaskIntoConstraints = false
         self.updateSosButtonState(state: .DronSosButtonTypeSos)
         sosButton.addTarget(self, action: #selector(sosButtonTapped(_:)), for: UIControlEvents.touchUpInside)
-        sosButton.addTarget(self, action: #selector(buttonStartTapped(_:)), for: UIControlEvents.touchDown)
         self.view.addSubview(sosButton)
         
         sosButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -45,7 +55,27 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
             self.updateSosButtonState(state: .DronSosButtonTypeSos)
         }
             
-        
+        if reachability.connection == .none {
+            self.disableSOSbutton()
+        }
+        else {
+            self.enableSOSbutton()
+        }
+    }
+    
+    
+    @objc func reachabilityChanged(note: Notification) {
+ 
+        switch reachability.connection {
+        case .wifi:
+            self.enableSOSbutton()
+            break
+        case .cellular:
+            self.enableSOSbutton()
+            break
+        case .none:
+            self.disableSOSbutton()
+        }
     }
     
     
@@ -76,23 +106,26 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
             self.enableSOSbutton()
             break
         }
+        currentButtonState = state
     }
     
     
     @objc func sosButtonTapped(_ sender: UIButton) -> Void {
-
-        InjectorContainer.shared.dronUIManager.presentUserLocationVC()
+        if currentButtonState == .DronSosButtonTypeSos {
+            InjectorContainer.shared.dronUIManager.presentUserLocationVC()
+        }
+        else {
+            InjectorContainer.shared.dronServerProvider.cancelSosRequest { (status, error) -> (Void) in
+                if error == nil {
+                    self.updateSosButtonState(state: .DronSosButtonTypeSos)
+                }
+                else {
+                    
+                }
+            }
+        }
     }
-    
-    @objc func cancelButtonTapped(_ sender: UIButton) -> Void {
 
-        InjectorContainer.shared.dronServerProvider.cancelSosRequest()
-    }
-    
-    @objc func buttonStartTapped(_ sender: UIButton) -> Void {
-
-    }
-    
     func createButton(title: String) -> UIButton {
         let button: UIButton = UIButton(frame: CGRect.zero)
         button.translatesAutoresizingMaskIntoConstraints = false

@@ -26,7 +26,7 @@ protocol DronServerProviderProtocol {
     func sendUpdatingLocation(location: CLLocationCoordinate2D)->Void
     
     func addSosRequest(location: CLLocationCoordinate2D, completion: @escaping DronServerProviderCompletionHandler) -> Void
-    func cancelSosRequest() -> Void
+    func cancelSosRequest(completion: @escaping DronServerProviderCompletionHandler) -> Void
     func getMissionInfoDTO() -> DronMissionInfoDTO?
     
     func isDronOnTheMission() -> Bool
@@ -137,7 +137,7 @@ class DronServerProvider : DronServerProviderProtocol {
         return true
     }
     
-    func cancelSosRequest() -> Void {
+    func cancelSosRequest(completion: @escaping DronServerProviderCompletionHandler) -> Void {
         if self.currentSOSRequest == nil {
             return
         }
@@ -148,9 +148,11 @@ class DronServerProvider : DronServerProviderProtocol {
                 self.currentSOSRequest = nil
                 self.injection?.dronUIManager.showSuccessBanner(text: "SOS was canceled successfully")
                 self.missionInfoDTO = nil
+                completion(true, nil)
             }
             else {
                 self.injection?.dronUIManager.showUnsuccessBanner(text: "SOS was canceled unsuccessfully")
+                completion(false, NSError(domain: "", code: 0, userInfo: [:]))
             }
         })
     }
