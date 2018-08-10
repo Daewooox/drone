@@ -163,18 +163,20 @@ class DronUserLocationViewController: UIViewController {
     }
     
     @objc func goButtonTapped() {
-        self.dismiss(animated: true) {
-            var userCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-            if self.mapView.annotations.count > 1 {
-                for annotation in self.mapView.annotations {
-                    if annotation .isKind(of: MKPointAnnotation.self) {
-                        userCoordinate = annotation.coordinate
-                    }
+        var userCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+        if self.mapView.annotations.count > 1 {
+            for annotation in self.mapView.annotations {
+                if annotation .isKind(of: MKPointAnnotation.self) {
+                    userCoordinate = annotation.coordinate
                 }
-            } else {
-                userCoordinate = self.mapView.userLocation.coordinate
             }
-            InjectorContainer.shared.dronServerProvider.addSosRequest(location: userCoordinate)
+        } else {
+            userCoordinate = self.mapView.userLocation.coordinate
+        }
+        InjectorContainer.shared.dronServerProvider.addSosRequest(location: userCoordinate) { (responce, error) -> (Void) in
+            if error == nil {
+                self.dismiss(animated: true) {}
+            }
         }
     }
     

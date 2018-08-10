@@ -25,9 +25,11 @@ protocol DronServerProviderProtocol {
     
     func sendUpdatingLocation(location: CLLocationCoordinate2D)->Void
     
-    func addSosRequest(location: CLLocationCoordinate2D) -> Void
+    func addSosRequest(location: CLLocationCoordinate2D, completion: @escaping DronServerProviderCompletionHandler) -> Void
     func cancelSosRequest() -> Void
     func getMissionInfoDTO() -> DronMissionInfoDTO?
+    
+    func isDronOnTheMission() -> Bool
 }
 
 
@@ -98,7 +100,7 @@ class DronServerProvider : DronServerProviderProtocol {
     }
     
     
-    func addSosRequest(location: CLLocationCoordinate2D) -> Void {
+    func addSosRequest(location: CLLocationCoordinate2D, completion: @escaping DronServerProviderCompletionHandler) -> Void {
         let locationDictionary: Dictionary<String, String> = ["latitude" : "\(location.latitude)", "longitude" : "\(location.longitude)"]
         let url = addSosRequstEndpoint(udid: (injection?.dronKeychainManager.getUserID())!)
 //                let url = addSosRequstEndpoint(udid: UUID().uuidString)
@@ -114,6 +116,7 @@ class DronServerProvider : DronServerProviderProtocol {
                     print(statusDTO);
                     if (self.currentSOSRequest != nil) {
                         self.getCurrentMissionInfo()
+                        completion(true, nil)
                     }
                 }
                 catch let jsonErr {
@@ -126,6 +129,13 @@ class DronServerProvider : DronServerProviderProtocol {
         })
     }
     
+    
+    func isDronOnTheMission() -> Bool {
+        if self.currentSOSRequest == nil {
+            return false
+        }
+        return true
+    }
     
     func cancelSosRequest() -> Void {
         if self.currentSOSRequest == nil {
