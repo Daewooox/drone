@@ -22,6 +22,13 @@ class DronAccountViewController: UIViewController {
         setupUI();
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(with:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(with:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
          view.endEditing(true)
@@ -42,20 +49,37 @@ class DronAccountViewController: UIViewController {
         
         self.view.addSubview(dronAccountView)
         
+        dronAccountViewModel?.subscribeToNotifications()
+        
         dronAccountView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
         dronAccountView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
         dronAccountView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
         dronAccountView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
         editButton = UIButton(frame: CGRect(x: 0, y: 7, width: 20, height: 20))
+        
         editButton?.setTitle(NSLocalizedString("Edit", comment: "Edit"), for: UIControlState.normal)
         editButton?.addTarget(self, action: #selector(onDoneBtnTap), for: UIControlEvents.touchUpInside)
-        
+        editButton?.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 15)
         let editBatItem = UIBarButtonItem(customView: editButton!)
         
         self.navigationItem.rightBarButtonItem = editBatItem;
-        
-        dronAccountViewModel?.tableView?.isUserInteractionEnabled = false
+    }
+    
+    
+    @objc func keyboardDidShow(with notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: AnyObject],
+            let keyboardFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+            else { return }
+        dronAccountViewModel?.tableView?.contentInset = UIEdgeInsetsMake(0, 0, keyboardFrame.size.height, 0)
+    }
+    
+    
+    @objc func keyboardWillHide(with notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: AnyObject],
+            let keyboardFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+            else { return }
+        dronAccountViewModel?.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
     }
     
     @objc func dismissKeyboard() {
@@ -85,18 +109,26 @@ class DronAccountViewController: UIViewController {
     
     func setEditingMode() -> Void {
         editButton?.setTitle(NSLocalizedString("Done", comment: "Done"), for: UIControlState.normal)
-        dronAccountViewModel?.tableView?.isUserInteractionEnabled = true
+
         let editBatItem = UIBarButtonItem(customView: editButton!)
         self.navigationItem.rightBarButtonItem = editBatItem;
         isEditingMode = isEditingMode == true ? false : true
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: DronAccountViewModelModeNotificationName), object: nil, userInfo: ["enable": isEditingMode])
+        
+        self.dronAccountViewModel?.tableView?.reloadData()
     }
     
     func setUsualMode() -> Void {
         editButton?.setTitle(NSLocalizedString("Edit", comment: "Edit"), for: UIControlState.normal)
-        dronAccountViewModel?.tableView?.isUserInteractionEnabled = false
         
         let editBatItem = UIBarButtonItem(customView: editButton!)
         self.navigationItem.rightBarButtonItem = editBatItem;
         isEditingMode = false
+        
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: DronAccountViewModelModeNotificationName), object: nil, userInfo: ["enable": isEditingMode])
+        
+        self.dronAccountViewModel?.tableView?.reloadData()
     }
 }

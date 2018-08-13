@@ -10,6 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+var DronAccountViewModelModeNotificationName = "DronAccountViewModelModeNotificationName";
+
 enum DronAccountViewModelSectionType: Int {
     case DronAccountViewModelSectionTypeInfo = 0,
     DronAccountViewModelSectionTypeEmergency,
@@ -54,9 +56,22 @@ struct DronAccountViewModelRowModel {
 class DronAccountViewModel : NSObject {
     weak var tableView : UITableView?
     var accountDTO : DronAccount?
+    var isTextFieldEnable : Bool = false
     
     init(model: DronAccount) {
         self.accountDTO = model
+    }
+    
+    
+    func subscribeToNotifications() -> Void {
+        NotificationCenter.default.addObserver(self, selector: #selector(setTextFieldEnable(notification:)), name: NSNotification.Name(rawValue: DronAccountViewModelModeNotificationName), object: nil)
+    }
+    
+    
+    @objc func setTextFieldEnable(notification: Notification) {
+        if let enable = notification.userInfo?["enable"] as? Bool {
+            self.isTextFieldEnable = enable
+        }
     }
     
     var rowsInfoModels : [DronAccountViewModelRowModel] = [
@@ -123,19 +138,19 @@ extension DronAccountViewModel : UITableViewDataSource {
             switch indexPath.row {
             case DronAccountViewModelSectionInfoRowType.DronAccountViewModelSectionInfoRowTypeAddress.rawValue:
                 textValue = accountDTO?.address ?? ""
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.address = cell.textView.text!
                 })
                 break
             case DronAccountViewModelSectionInfoRowType.DronAccountViewModelSectionInfoRowTypeName.rawValue:
                 textValue = accountDTO?.name ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.name = cell.textView.text!
                 })
                 break
             case DronAccountViewModelSectionInfoRowType.DronAccountViewModelSectionInfoRowTypePhone.rawValue:
                 textValue = accountDTO?.phoneNumber ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.phoneNumber = cell.textView.text!
                 })
                 break
@@ -146,19 +161,19 @@ extension DronAccountViewModel : UITableViewDataSource {
             switch indexPath.row {
             case DronAccountViewModelSectionEmergencyRowType.DronAccountViewModelSectionEmergencyRowTypeContactNumber.rawValue:
                 textValue = accountDTO?.emergencyContactNumber ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.emergencyContactNumber = cell.textView.text!
                 })
                 break
             case DronAccountViewModelSectionEmergencyRowType.DronAccountViewModelSectionEmergencyRowTypeContactEmail.rawValue:
                 textValue = accountDTO?.emergencyContactEmail ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.emergencyContactEmail = cell.textView.text!
                 })
                 break
             case DronAccountViewModelSectionEmergencyRowType.DronAccountViewModelSectionEmergencyRowTypeContactPerson.rawValue:
                 textValue = accountDTO?.emergencyContactPerson ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.emergencyContactPerson = cell.textView.text!
                 })
                 break
@@ -169,25 +184,25 @@ extension DronAccountViewModel : UITableViewDataSource {
             switch indexPath.row {
             case DronAccountViewModelSectionMedicalInformationRowType.DronAccountViewModelSectionMedicalInformationRowTypeBloodType.rawValue:
                 textValue = accountDTO?.bloodType ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.bloodType = cell.textView.text!
                 })
                 break
             case DronAccountViewModelSectionMedicalInformationRowType.DronAccountViewModelSectionMedicalInformationRowTypeMedicalConditions.rawValue:
                 textValue = accountDTO?.knownMedicalConditions ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.knownMedicalConditions = cell.textView.text!
                 })
                 break
             case DronAccountViewModelSectionMedicalInformationRowType.DronAccountViewModelSectionMedicalInformationRowTypePrescriptionAllergies.rawValue:
                 textValue = accountDTO?.knownAllergies ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.knownAllergies = cell.textView.text!
                 })
                 break
             case DronAccountViewModelSectionMedicalInformationRowType.DronAccountViewModelSectionMedicalInformationRowTypePrescription.rawValue:
                 textValue = accountDTO?.knownPrescriptionMedicationsBeingTaken ?? "" ;
-                cell.textView.rx.text.subscribe({_ in
+                cell.textView.rx.text.skip(1).subscribe({_ in
                     self.accountDTO?.knownPrescriptionMedicationsBeingTaken = cell.textView.text!
                 })
                 break
@@ -197,7 +212,9 @@ extension DronAccountViewModel : UITableViewDataSource {
         }
         cell.titleLabel.text = rowModel.rowTitle
         cell.textView.text = textValue
-        cell.textViewText = textValue
+
+        cell.textView.isUserInteractionEnabled = isTextFieldEnable
+
         return cell
     }
     
