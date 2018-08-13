@@ -17,6 +17,7 @@
 		616166953999642549D3ADB1 /* Pods_DronTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD14226EB191A900D3A3401 /* Pods_DronTests.framework */; };
 		7416525C1981F618C33E51DE /* Pods_DronUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40769A75C005677629F44D43 /* Pods_DronUITests.framework */; };
 		905EEF4DDFDCD6D06E278FE4 /* Pods_Dron.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46CCD6325373D51E1DE59398 /* Pods_Dron.framework */; };
+		E23D7064211DC860006C3333 /* DronAccountTableSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23D7063211DC860006C3333 /* DronAccountTableSectionHeaderView.swift */; };
 		E24009FD20E4D04E00C0CA82 /* DronKeychainTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24009FC20E4D04E00C0CA82 /* DronKeychainTest.swift */; };
 		E24009FE20E4D07C00C0CA82 /* DronKeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28FF3B320B4611300E44158 /* DronKeychainManager.swift */; };
 		E24009FF20E4D09F00C0CA82 /* DronAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28FF3B520B4641800E44158 /* DronAccount.swift */; };
@@ -84,6 +85,7 @@
 		7E07501A98A630B8FF81CE50 /* Pods-DronTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DronTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DronTests/Pods-DronTests.release.xcconfig"; sourceTree = "<group>"; };
 		818F74572FB858A3332F440C /* Pods-Dron.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dron.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dron/Pods-Dron.debug.xcconfig"; sourceTree = "<group>"; };
 		AA7ABE9832947FAFFAA10836 /* Pods-DronUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DronUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DronUITests/Pods-DronUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E23D7063211DC860006C3333 /* DronAccountTableSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronAccountTableSectionHeaderView.swift; sourceTree = "<group>"; };
 		E24009FC20E4D04E00C0CA82 /* DronKeychainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronKeychainTest.swift; sourceTree = "<group>"; };
 		E26E550820AABFD3005B541D /* Dron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dron.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26E550B20AABFD3005B541D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				E28FF3A520AF00BC00E44158 /* DronAccountView.swift */,
 				E28FF3A720AF010400E44158 /* DronAccountViewModel.swift */,
 				E28FF3A920AF08CB00E44158 /* DronAccountTableViewCell.swift */,
+				E23D7063211DC860006C3333 /* DronAccountTableSectionHeaderView.swift */,
 			);
 			path = AccountViewController;
 			sourceTree = "<group>";
@@ -489,6 +492,8 @@
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -499,6 +504,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -571,6 +578,7 @@
 				11670F7E20FDEB380033063F /* DronMissionInfoViewModel.swift in Sources */,
 				E28FF3A820AF010400E44158 /* DronAccountViewModel.swift in Sources */,
 				E26E554720AC29B5005B541D /* DronDTO.swift in Sources */,
+				E23D7064211DC860006C3333 /* DronAccountTableSectionHeaderView.swift in Sources */,
 				E28FF3AD20B2EDBC00E44158 /* ColorExtension.swift in Sources */,
 				E26E555720AEBECE005B541D /* DronUIManager.swift in Sources */,
 				E28FF3B420B4611300E44158 /* DronKeychainManager.swift in Sources */,

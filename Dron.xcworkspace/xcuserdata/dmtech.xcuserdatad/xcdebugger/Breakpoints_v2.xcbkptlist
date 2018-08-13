@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dron/InjectorContainer/DronKeychainManager/DronKeychainManager.swift"
-            timestampString = "553073577.762738"
+            timestampString = "555854384.645527"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "isUserExist()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,44 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dron/InjectorContainer/DronKeychainManager/DronKeychainManager.swift"
-            timestampString = "553073577.7630399"
+            timestampString = "555854384.64601"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "isUserExist()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dron/InjectorContainer/DronKeychainManager/DronKeychainManager.swift"
-            timestampString = "553073577.763224"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "isUserExist()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dron/ServerProvider/DronServerProvider.swift"
-            timestampString = "553073477.47699"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "addSosRequest(location:)"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "registerNewUser(account:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
