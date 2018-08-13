@@ -8,6 +8,7 @@
 
 import UIKit
 import DeviceCheck
+import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,13 +22,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         InjectorContainer.shared.dronLocationManager.start()
         
 
-        let udid = UUID().uuidString
+        let udid = UIDevice.current.identifierForVendor!.uuidString
         
         let newAccount: DronAccount = DronAccount(deviceId: udid,
-                                                  contactInformation: "",
-                                                  medicalData: "",
-                                                  emergencyContactInformation: "")
-        
+                                                  address : "",
+                                                  name: "",
+                                                  phoneNumber: "",
+                                                  emergencyContactPerson: "",
+                                                  emergencyContactNumber: "",
+                                                  emergencyContactEmail: "",
+                                                  bloodType: "",
+                                                  knownMedicalConditions: "",
+                                                  knownPrescriptionMedicationsBeingTaken: "",
+                                                  knownAllergies: "")
+         
         if InjectorContainer.shared.dronKeychainManager.isUserExist() == false {
             InjectorContainer.shared.dronServerProvider.checkExsitingAccount(deviceID: udid, completion: { (responce, error) -> (Void) in
                 if responce as! Bool == true {
@@ -44,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else {
             InjectorContainer.shared.dronServerProvider.checkExsitingAccount(deviceID: udid, completion: { (responce, error) -> (Void) in
                 if responce as! Bool == true {
-                    InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
+//                    InjectorContainer.shared.dronKeychainManager.registerNewUser(account: newAccount)
                 }
                 else {
                     InjectorContainer.shared.dronKeychainManager.removeCurrentUser()

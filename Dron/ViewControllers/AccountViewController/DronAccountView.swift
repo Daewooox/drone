@@ -40,18 +40,40 @@ class DronAccountView: UIView {
         tableView.separatorColor = UIColor.clear
         
         tableView.register(DronAccountTableViewCell.self, forCellReuseIdentifier: String.init(describing: DronAccountTableViewCell.self))
+        tableView.register(DronAccountTableSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: String.init(describing: DronAccountTableSectionHeaderView.self))
         self.addSubview(tableView)
         
         tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        tableView .reloadData()
     }
 }
 
 
 extension DronAccountView : UITableViewDelegate {
 
+    
+    internal  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String.init(describing: DronAccountTableSectionHeaderView.self)) as! DronAccountTableSectionHeaderView
+        
+        headerView.titleLabel.text = tableViewModel.sectionsData[section].sectionTitle  // set this however is appropriate for your app's model
+        return headerView
+    }
+    
+    
+    internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView(frame: CGRect.zero)
     }

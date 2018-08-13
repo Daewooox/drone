@@ -7,6 +7,9 @@ PODS:
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
   - ReachabilitySwift (4.1.0)
+  - RxCocoa (4.0.0):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.0.0)
   - SnapKit (4.0.0)
 
 DEPENDENCIES:
@@ -15,6 +18,8 @@ DEPENDENCIES:
   - LGButton
   - NotificationBannerSwift
   - ReachabilitySwift
+  - RxCocoa
+  - RxSwift
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -24,6 +29,8 @@ SPEC REPOS:
     - MarqueeLabel
     - NotificationBannerSwift
     - ReachabilitySwift
+    - RxCocoa
+    - RxSwift
     - SnapKit
 
 SPEC CHECKSUMS:
@@ -33,8 +40,10 @@ SPEC CHECKSUMS:
   MarqueeLabel: baa5753dcbd36dca080e1f5c589a665aa5c906f1
   NotificationBannerSwift: 9ae620a32aca7d3bb12a691b0a609489b0067542
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
+  RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
+  RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: e8728873fb37fb4c23aacd2a1e666ffa4bd48744
+PODFILE CHECKSUM: 256b7b1c7401550608d98df0ad6592f1d5e76ff9
 
 COCOAPODS: 1.5.3

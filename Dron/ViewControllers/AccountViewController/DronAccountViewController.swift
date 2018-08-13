@@ -12,11 +12,12 @@ import UIKit
 
 class DronAccountViewController: UIViewController {
     
-    let dronAccountViewModel = DronAccountViewModel()
+    var dronAccountViewModel : DronAccountViewModel?
     var editButton : UIButton?
     var isEditingMode: Bool = false
     
     override func viewDidLoad() {
+        dronAccountViewModel = DronAccountViewModel(model: InjectorContainer.shared.dronKeychainManager.getCurrentUser()!)
         super.viewDidLoad()
         setupUI();
     }
@@ -24,7 +25,7 @@ class DronAccountViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
          view.endEditing(true)
-        setUsualMode()
+         setUsualMode()
     }
     
     
@@ -33,8 +34,8 @@ class DronAccountViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        let dronAccountView : DronAccountView = DronAccountView(model: dronAccountViewModel)
-        dronAccountViewModel.tableView = dronAccountView.tableView
+        let dronAccountView : DronAccountView = DronAccountView(model: dronAccountViewModel!)
+        dronAccountViewModel?.tableView = dronAccountView.tableView
         
         dronAccountView.translatesAutoresizingMaskIntoConstraints = false
         dronAccountView.backgroundColor = UIColor.clear
@@ -54,7 +55,7 @@ class DronAccountViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItem = editBatItem;
         
-        dronAccountViewModel.tableView?.isUserInteractionEnabled = false
+        dronAccountViewModel?.tableView?.isUserInteractionEnabled = false
     }
     
     @objc func dismissKeyboard() {
@@ -65,10 +66,11 @@ class DronAccountViewController: UIViewController {
     @objc func onDoneBtnTap() -> Void {
         
         if isEditingMode == true {
-            let accountDTO : DronAccount? = dronAccountViewModel.getUpdatedAccount()!
+            let accountDTO : DronAccount? = dronAccountViewModel?.getUpdatedAccount()!
             if accountDTO != nil {
                 InjectorContainer.shared.dronServerProvider.updateAccount(accountDTO: accountDTO!) { (responce, error) -> (Void) in
                     InjectorContainer.shared.dronKeychainManager.registerNewUser(account: accountDTO!)
+                    dronAccountViewModel?.accountDTO = accountDTO
                 }
             }
         }
@@ -83,7 +85,7 @@ class DronAccountViewController: UIViewController {
     
     func setEditingMode() -> Void {
         editButton?.setTitle(NSLocalizedString("Done", comment: "Done"), for: UIControlState.normal)
-        dronAccountViewModel.tableView?.isUserInteractionEnabled = true
+        dronAccountViewModel?.tableView?.isUserInteractionEnabled = true
         let editBatItem = UIBarButtonItem(customView: editButton!)
         self.navigationItem.rightBarButtonItem = editBatItem;
         isEditingMode = isEditingMode == true ? false : true
@@ -91,7 +93,8 @@ class DronAccountViewController: UIViewController {
     
     func setUsualMode() -> Void {
         editButton?.setTitle(NSLocalizedString("Edit", comment: "Edit"), for: UIControlState.normal)
-        dronAccountViewModel.tableView?.isUserInteractionEnabled = false
+        dronAccountViewModel?.tableView?.isUserInteractionEnabled = false
+        
         let editBatItem = UIBarButtonItem(customView: editButton!)
         self.navigationItem.rightBarButtonItem = editBatItem;
         isEditingMode = false
