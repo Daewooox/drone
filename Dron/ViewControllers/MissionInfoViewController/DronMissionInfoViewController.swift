@@ -51,6 +51,7 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
             mapView?.translatesAutoresizingMaskIntoConstraints = false
             mapView?.backgroundColor = UIColor.clear
             mapView?.delegate = self
+            mapView?.mapType = MKMapType.hybrid
             self.view.addSubview(mapView!)
             
             dronInfoViewModel = DronMissionInfoViewModel(missionInfoViewModel: missionInfoDTO!)

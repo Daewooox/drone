@@ -163,6 +163,7 @@ class DronUserLocationViewController: UIViewController {
     }
     
     @objc func goButtonTapped() {
+        goButton.isEnabled = false
         var userCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
         if self.mapView.annotations.count > 1 {
             for annotation in self.mapView.annotations {
@@ -176,6 +177,8 @@ class DronUserLocationViewController: UIViewController {
         InjectorContainer.shared.dronServerProvider.addSosRequest(location: userCoordinate) { (responce, error) -> (Void) in
             if error == nil {
                 self.dismiss(animated: true) {}
+            } else {
+                self.goButton.isEnabled = true
             }
         }
     }
