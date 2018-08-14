@@ -13,6 +13,7 @@ class DronAccountTableViewCell: UITableViewCell, UITextFieldDelegate {
     var titleLabel : UILabel = UILabel()
     var textView : UITextField = UITextField()
     var textViewText : String = String()
+    var textViewEnable : Bool = false
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -22,6 +23,11 @@ class DronAccountTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     required init?(coder aDecoder: NSCoder) {
      super.init(coder: aDecoder)
+    }
+    
+    override func prepareForReuse() {
+        self.textView.text = nil
+        self.titleLabel.text = nil
     }
     
     
