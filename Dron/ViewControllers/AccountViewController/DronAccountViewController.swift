@@ -14,6 +14,7 @@ class DronAccountViewController: UIViewController {
     
     var dronAccountViewModel : DronAccountViewModel?
     var editButton : UIButton?
+    var cancelButton : UIButton?
     var isEditingMode: Bool = false
     
     override func viewDidLoad() {
@@ -63,7 +64,20 @@ class DronAccountViewController: UIViewController {
         editButton?.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 15)
         let editBatItem = UIBarButtonItem(customView: editButton!)
         
+        
+        cancelButton = UIButton(frame: CGRect(x: 0, y: 7, width: 20, height: 20))
+        
+        cancelButton?.setTitle(NSLocalizedString("Cancel", comment: "Cancel"), for: UIControlState.normal)
+        cancelButton?.addTarget(self, action: #selector(onCancelBtnTap), for: UIControlEvents.touchUpInside)
+        cancelButton?.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 15)
+        let cancelBatItem = UIBarButtonItem(customView: cancelButton!)
+        
         self.navigationItem.rightBarButtonItem = editBatItem;
+        
+        self.navigationItem.leftBarButtonItem = cancelBatItem;
+        cancelButton?.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+        cancelButton?.setTitleColor(UIColor.white, for: UIControlState.normal)
+        self.navigationItem.leftBarButtonItem?.isEnabled = false
     }
     
     
@@ -86,6 +100,13 @@ class DronAccountViewController: UIViewController {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
+    
+    @objc func onCancelBtnTap() -> Void {
+        self.setUsualMode()
+        dronAccountViewModel?.accountDTO = InjectorContainer.shared.dronKeychainManager.getCurrentUser()!
+        dronAccountViewModel?.tableView?.reloadData()
+    }
+    
     
     @objc func onDoneBtnTap() -> Void {
         
@@ -117,6 +138,8 @@ class DronAccountViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: DronAccountViewModelModeNotificationName), object: nil, userInfo: ["enable": isEditingMode])
         
         self.dronAccountViewModel?.tableView?.reloadData()
+        
+        self.navigationItem.leftBarButtonItem?.isEnabled = true;
     }
     
     func setUsualMode() -> Void {
@@ -130,5 +153,6 @@ class DronAccountViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: DronAccountViewModelModeNotificationName), object: nil, userInfo: ["enable": isEditingMode])
         
         self.dronAccountViewModel?.tableView?.reloadData()
+        self.navigationItem.leftBarButtonItem?.isEnabled = false;
     }
 }

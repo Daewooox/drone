@@ -129,9 +129,7 @@ extension DronAccountViewModel : UITableViewDataSource {
         let rowModel : DronAccountViewModelRowModel = sectionsData[indexPath.section].rowsModel[indexPath.row]
         
         var textValue : String = ""
-        
-        let disposeBag = DisposeBag()
-        
+
         switch indexPath.section {
             
         case DronAccountViewModelSectionType.DronAccountViewModelSectionTypeInfo.rawValue:

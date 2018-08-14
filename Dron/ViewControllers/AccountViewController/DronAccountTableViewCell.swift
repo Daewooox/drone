@@ -25,6 +25,11 @@ class DronAccountTableViewCell: UITableViewCell, UITextFieldDelegate {
      super.init(coder: aDecoder)
     }
     
+    override func prepareForReuse() {
+        self.textView.text = nil
+        self.titleLabel.text = nil
+    }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
