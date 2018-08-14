@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 
-class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
+class DronMissionInfoViewController: UIViewController, MKMapViewDelegate {
     var mapView: MKMapView?
     var dronMissionInfoView: DronMissionInfoView?
     var dronInfoViewModel: DronMissionInfoViewModel?
@@ -90,8 +90,9 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate{
         if (missionInfoDTO != nil) {
             let coordinate = missionInfoDTO?.locations.last;
             mapView?.centerCoordinate = CLLocationCoordinate2D(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!)
-            let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!), span: MKCoordinateSpan(latitudeDelta: 0.9, longitudeDelta: 0.9))
-            self.mapView?.setRegion(region, animated: false)
+            let regionRadius: CLLocationDistance = 5000
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!), regionRadius, regionRadius)
+            self.mapView?.setRegion(coordinateRegion, animated: true)
             
             var anotations = [MKAnnotation]()
             for location in (missionInfoDTO?.locations)! {

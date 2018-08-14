@@ -58,6 +58,11 @@ func cancelSosRequstEndpoint(udid: String, requestID: UInt64) -> String {
 }
 
 
+func getMissionStatusEndpoint(udid: String, requestID: UInt64) -> String {
+    let url = "\(dronBaseEndpoint)account/\(udid)/sos/\(requestID)"
+    return url
+}
+
 func getStatusEndpoint() -> String {
     return dronBaseEndpoint + "/status"
 }

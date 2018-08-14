@@ -27,6 +27,7 @@ protocol DronServerProviderProtocol {
     
     func addSosRequest(location: CLLocationCoordinate2D, completion: @escaping DronServerProviderCompletionHandler) -> Void
     func cancelSosRequest(completion: @escaping DronServerProviderCompletionHandler) -> Void
+    func getMissionStatus(completion: @escaping DronServerProviderCompletionHandler) -> Void
     func getMissionInfoDTO() -> DronMissionInfoDTO?
     
     func isDronOnTheMission() -> Bool
@@ -153,6 +154,29 @@ class DronServerProvider : DronServerProviderProtocol {
             else {
                 self.injection?.dronUIManager.showUnsuccessBanner(text: "SOS was canceled unsuccessfully")
                 completion(false, NSError(domain: "", code: 0, userInfo: [:]))
+            }
+        })
+    }
+    
+    func getMissionStatus(completion: @escaping DronServerProviderCompletionHandler) -> Void {
+        if self.currentSOSRequest == nil {
+            return
+        }
+        let url = getMissionStatusEndpoint(udid: (injection?.dronKeychainManager.getUserID())!, requestID: (currentSOSRequest?.requestId)!)
+        injection?.dronNetworkService.getWithURL(url: url, params: nil, completion: { (responce, error) -> (Void) in
+            if error == nil {
+                do {
+                    let statusDTO = try JSONDecoder().decode(DronSosRequestStatusDTO.self, from: responce!)
+                    self.currentSOSRequest = statusDTO
+                    if statusDTO.requestStatus == "completed" {
+                        self.currentSOSRequest = nil
+                        self.missionInfoDTO = nil
+                    }
+                    completion(statusDTO, nil)
+                }
+                catch let jsonErr {
+                    print("Error serializing json", jsonErr)
+                }
             }
         })
     }

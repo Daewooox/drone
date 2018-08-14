@@ -19,6 +19,7 @@ enum DronSosButtonType: Int {
 
 class DronControlViewController: UIViewController, MKMapViewDelegate {
     
+    static let getMissionStatusInterval: Double = 10
     lazy var sosButton = UIButton(type: .custom)
     let reachability = Reachability()!
     var currentButtonState : DronSosButtonType = .DronSosButtonTypeSos
@@ -61,8 +62,22 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
         else {
             self.enableSOSbutton()
         }
+        Timer.scheduledTimer(timeInterval: DronControlViewController.getMissionStatusInterval, target: self, selector: #selector(getMissionStatus), userInfo: nil, repeats: true)
     }
     
+    
+    @objc func getMissionStatus() {
+        if InjectorContainer.shared.dronServerProvider.isDronOnTheMission() {
+            InjectorContainer.shared.dronServerProvider.getMissionStatus { (response, error) -> (Void) in
+                if error == nil {
+                    let sosRequestStatusDTO = response as! DronSosRequestStatusDTO
+                    if sosRequestStatusDTO.requestStatus == "completed" {
+                        self.updateSosButtonState(state: .DronSosButtonTypeSos)
+                    }
+                }
+            }
+        }
+    }
     
     @objc func reachabilityChanged(note: Notification) {
  
