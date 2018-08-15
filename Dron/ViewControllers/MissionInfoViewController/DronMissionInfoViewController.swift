@@ -33,6 +33,10 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        initialSetup()
+    }
+   
+    func initialSetup() {
         if (mapView != nil) {
             self.mapView?.removeFromSuperview()
             self.dronMissionInfoView?.removeFromSuperview()
@@ -43,7 +47,7 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate {
         setupUI()
         setupMapView()
     }
-   
+    
     func setupUI() {
         self.view.backgroundColor = UIColor.ViewController.background
         if (missionInfoDTO != nil) {

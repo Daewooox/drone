@@ -81,8 +81,10 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
                     let sosRequestStatusDTO = response as! DronSosRequestStatusDTO
                     if sosRequestStatusDTO.requestStatus == "completed" {
                         self.updateSosButtonState(state: .DronSosButtonTypeSos)
-                        if let vc = InjectorContainer.shared.dronUIManager.getSelectedVC() as? UINavigationController {
-                            vc.viewWillAppear(true)
+                        if let selectedVC = InjectorContainer.shared.dronUIManager.getSelectedVC() as? UINavigationController {
+                            if let dronMissionInfoVC = selectedVC.viewControllers.first as? DronMissionInfoViewController {
+                                dronMissionInfoVC.initialSetup()
+                            }
                         }
                     }
                 }
