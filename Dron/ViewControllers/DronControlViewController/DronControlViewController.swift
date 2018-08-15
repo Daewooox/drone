@@ -23,6 +23,7 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
     lazy var sosButton = UIButton(type: .custom)
     let reachability = Reachability()!
     var currentButtonState : DronSosButtonType = .DronSosButtonTypeSos
+    var getMissionStatusTimer: Timer?
     
     override func viewDidLoad() {
         
@@ -62,9 +63,16 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
         else {
             self.enableSOSbutton()
         }
-        Timer.scheduledTimer(timeInterval: DronControlViewController.getMissionStatusInterval, target: self, selector: #selector(getMissionStatus), userInfo: nil, repeats: true)
+        
     }
     
+    func startTimer() {
+        self.getMissionStatusTimer = Timer.scheduledTimer(timeInterval: DronControlViewController.getMissionStatusInterval, target: self, selector: #selector(getMissionStatus), userInfo: nil, repeats: true)
+    }
+    
+    func stopTimer() {
+        self.getMissionStatusTimer?.invalidate()
+    }
     
     @objc func getMissionStatus() {
         if InjectorContainer.shared.dronServerProvider.isDronOnTheMission() {
@@ -73,6 +81,9 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
                     let sosRequestStatusDTO = response as! DronSosRequestStatusDTO
                     if sosRequestStatusDTO.requestStatus == "completed" {
                         self.updateSosButtonState(state: .DronSosButtonTypeSos)
+                        if let vc = InjectorContainer.shared.dronUIManager.getSelectedVC() as? UINavigationController {
+                            vc.viewWillAppear(true)
+                        }
                     }
                 }
             }
@@ -112,6 +123,7 @@ class DronControlViewController: UIViewController, MKMapViewDelegate {
             sosButton.setImage(UIImage(named: "Button-SOS-pressed"), for: .selected)
             sosButton.setImage(UIImage(named: "Button-SOS-disabled"), for: .disabled)
             self.enableSOSbutton()
+            self.stopTimer()
             break
         case .DronSosButtonTypeCancel:
             sosButton.setImage(UIImage(named: "Button-CANCEL-enabled"), for: .normal)

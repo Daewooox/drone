@@ -126,6 +126,7 @@ class DronServerProvider : DronServerProviderProtocol {
             }
             else {
                 self.injection?.dronUIManager.showUnsuccessBanner(text: "SOS request was made unsuccessfully")
+                completion(false, error)
             }
         })
     }

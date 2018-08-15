@@ -175,10 +175,13 @@ class DronUserLocationViewController: UIViewController {
             userCoordinate = self.mapView.userLocation.coordinate
         }
         InjectorContainer.shared.dronServerProvider.addSosRequest(location: userCoordinate) { (responce, error) -> (Void) in
+            self.goButton.isEnabled = true
             if error == nil {
-                self.dismiss(animated: true) {}
-            } else {
-                self.goButton.isEnabled = true
+                self.dismiss(animated: true) {
+                    if let vc = InjectorContainer.shared.dronUIManager.getSelectedVC() as? DronControlViewController {
+                        vc.startTimer()
+                    }
+                }
             }
         }
     }

@@ -29,6 +29,7 @@ class DronMissionInfoView: UIView {
         super.layoutSubviews()
         self.roundCornersWithBorder([.topLeft, .topRight], [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 15)
     }
+    
     func setupUI() {
         self.backgroundColor = UIColor.white
 

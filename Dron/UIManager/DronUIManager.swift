@@ -20,6 +20,7 @@ protocol DronUIManagerProtocol {
     func showUnsuccessBanner(text: String) -> Void
     func showInfoBanner(text: String) -> Void
     func presentUserLocationVC()
+    func getSelectedVC() -> UIViewController
 }
 
 
@@ -84,6 +85,10 @@ class DronUIManager : DronUIManagerProtocol {
     func presentUserLocationVC() {
         let vc = DronUserLocationViewController()
         tabbarConroller.present(vc, animated: true, completion: nil)
+    }
+    
+    func getSelectedVC() -> UIViewController {
+        return tabbarConroller.selectedViewController!
     }
     
     func showSuccessBanner(text: String) -> Void {
