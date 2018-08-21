@@ -76,12 +76,16 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate {
             
             addPointsToMap()
         } else {
-            self.view.addSubview(self.noMissionLabel)
-            noMissionLabel.translatesAutoresizingMaskIntoConstraints = false
-            noMissionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            noMissionLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            noMissionLabel.widthAnchor.constraint(equalToConstant: 320).isActive = true
-            noMissionLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
+            let noMissionImageView = UIImageView(frame: CGRect.zero)
+            noMissionImageView.translatesAutoresizingMaskIntoConstraints = false
+            noMissionImageView.image = UIImage(named: "Screen-not mission")
+            noMissionImageView.contentMode = UIViewContentMode.scaleAspectFit
+            self.view.addSubview(noMissionImageView)
+            
+            noMissionImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+            noMissionImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+            noMissionImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+            noMissionImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         }
     }
     
