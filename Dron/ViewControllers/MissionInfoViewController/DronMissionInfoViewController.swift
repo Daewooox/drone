@@ -14,21 +14,6 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate {
     var mapView: MKMapView?
     var dronMissionInfoView: DronMissionInfoView?
     var dronInfoViewModel: DronMissionInfoViewModel?
-    
-    lazy var noMissionLabel: UILabel = {
-        let label = UILabel()
-        let attrs: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.regular)]
-        let attText = NSMutableAttributedString(string: NSLocalizedString("Mission not assigned", comment: "Mission not assigned"), attributes: attrs)
-        label.attributedText = attText
-        label.textAlignment = NSTextAlignment.center;
-        label.backgroundColor = UIColor.white
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 20
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 1
-        return label
-    }()
-    
     var missionInfoDTO: DronMissionInfoDTO?
 
     override func viewWillAppear(_ animated: Bool) {
