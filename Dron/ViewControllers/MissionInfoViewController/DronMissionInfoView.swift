@@ -40,7 +40,11 @@ class DronMissionInfoView: UIView {
         tableView.alwaysBounceVertical = false
         tableView.isScrollEnabled = false
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 25
+        if DeviceType.IS_IPHONE_5 {
+            tableView.estimatedRowHeight = 35
+        } else {
+            tableView.estimatedRowHeight = 28
+        }
         tableView.register(DronMissionInfoTableViewCell.self, forCellReuseIdentifier: String.init(describing: DronMissionInfoTableViewCell.self))
         self.addSubview(tableView)
         self.tableView.reloadData()

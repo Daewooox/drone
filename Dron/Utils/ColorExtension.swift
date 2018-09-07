@@ -46,4 +46,7 @@ extension UIColor {
     struct ViewController {
         static let background = UIColor(netHex: 0xdaedfd)
     }
+    struct HeaderView {
+        static let background = UIColor(netHex: 0xacbbc7)
+    }
 }

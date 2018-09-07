@@ -29,7 +29,9 @@ protocol DronServerProviderProtocol {
     func cancelSosRequest(completion: @escaping DronServerProviderCompletionHandler) -> Void
     func getMissionStatus(completion: @escaping DronServerProviderCompletionHandler) -> Void
     func getMissionInfoDTO() -> DronMissionInfoDTO?
-    
+    func setMissionInfoDTO(dronMissionInfoDTO: DronMissionInfoDTO)
+    func getAccountMissions(page: Int, size: Int, completion: @escaping DronServerProviderCompletionHandler)
+    func getAccountMissionsDTO() -> [DronMissionInfoDTO]
     func isDronOnTheMission() -> Bool
 }
 
@@ -39,6 +41,7 @@ class DronServerProvider : DronServerProviderProtocol {
     var injection : DronServerProviderInjection?
     var currentSOSRequest : DronSosRequestStatusDTO?
     var missionInfoDTO: DronMissionInfoDTO?
+    var accountMissions: [DronMissionInfoDTO] = [DronMissionInfoDTO]()
     
     init(aInjection:DronServerProviderInjection) {
         injection = aInjection;
@@ -109,6 +112,9 @@ class DronServerProvider : DronServerProviderProtocol {
         let queryItems = self.queryItems(dictionary: locationDictionary)
         urlComps.queryItems = queryItems
         injection?.dronNetworkService.postWithURL(url:urlComps.url!.absoluteString, params: locationDictionary, completion: { (responce, error) -> (Void) in
+            self.getAccountMissions(page: DronAppConstants.URLConstants.pageForAccountMission, size: DronAppConstants.URLConstants.sizeForAccountMission, completion: { (response, error) -> (Void) in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "DronMissionHistoryViewModel"), object: nil)
+            })
             if error == nil {
                 self.injection?.dronUIManager.showSuccessBanner(text: "SOS request was made successfully")
                 do {
@@ -150,6 +156,9 @@ class DronServerProvider : DronServerProviderProtocol {
                 self.currentSOSRequest = nil
                 self.injection?.dronUIManager.showSuccessBanner(text: "SOS was canceled successfully")
                 self.missionInfoDTO = nil
+                self.getAccountMissions(page: DronAppConstants.URLConstants.pageForAccountMission, size: DronAppConstants.URLConstants.sizeForAccountMission, completion: { (response, error) -> (Void) in
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "DronMissionHistoryViewModel"), object: nil)
+                })
                 completion(true, nil)
             }
             else {
@@ -206,8 +215,6 @@ class DronServerProvider : DronServerProviderProtocol {
     }
     
     func getCurrentMissionInfo() {
-    //  id for test
-    // http://52.174.139.191:8080/drone-server-be/account/EBF91021-4CFD-4358-A937-D600682F4423/mission/inprogress
         injection?.dronNetworkService.getWithURL(url: missionInfoEndpoint(deviceId: (injection?.dronKeychainManager.getUserID())!), params: nil, completion: { (response, error) -> (Void) in
             if error == nil {
                 do {
@@ -224,9 +231,40 @@ class DronServerProvider : DronServerProviderProtocol {
             
         })
     }
+
+    func getAccountMissions(page: Int, size: Int, completion: @escaping DronServerProviderCompletionHandler) {
+        let url = accountMissionsEndpoint(deviceId: (injection?.dronKeychainManager.getUserID())!) + "?page=\(page)&size=\(size)"
+        injection?.dronNetworkService.getWithURL(url: url, params: nil, completion: { (response, error) -> (Void) in
+            if error == nil {
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    let result = try decoder.decode([DronMissionInfoDTO].self, from:response!)
+                    if page == 1 {
+                        self.accountMissions = result
+                    } else {
+                        self.accountMissions += result
+                    }
+                    completion(result, nil)
+                }
+                catch let jsonErr {
+                    print("Error serializing json", jsonErr)
+                }
+            }
+        })
+    }
+    
     
     func getMissionInfoDTO() -> DronMissionInfoDTO? {
         return self.missionInfoDTO
+    }
+    
+    func setMissionInfoDTO(dronMissionInfoDTO: DronMissionInfoDTO) {
+        self.missionInfoDTO = dronMissionInfoDTO
+    }
+    
+    func getAccountMissionsDTO() -> [DronMissionInfoDTO] {
+        return self.accountMissions
     }
     
     func queryItems(dictionary: [String:String]) -> [URLQueryItem] {
@@ -236,3 +274,4 @@ class DronServerProvider : DronServerProviderProtocol {
         }
     }
 }
+

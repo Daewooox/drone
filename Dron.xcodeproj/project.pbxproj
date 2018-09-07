@@ -7,10 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11110BA4212FF50B00967CB4 /* DronMissionHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11110BA3212FF50B00967CB4 /* DronMissionHistoryViewController.swift */; };
+		1161D51F2137F0C7004DD610 /* DronMissionHistoryTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1161D51E2137F0C7004DD610 /* DronMissionHistoryTableHeaderView.swift */; };
 		1165425D20FF1F6100B62C21 /* DronMissionInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1165425C20FF1F6100B62C21 /* DronMissionInfoViewController.swift */; };
 		11670F7E20FDEB380033063F /* DronMissionInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11670F7D20FDEB380033063F /* DronMissionInfoViewModel.swift */; };
 		11670F8020FE1B550033063F /* DronMissionInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11670F7F20FE1B550033063F /* DronMissionInfoTableViewCell.swift */; };
 		116A5D922100C78900CFAB53 /* DronViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116A5D912100C78900CFAB53 /* DronViewExtension.swift */; };
+		116E523421357840000AB657 /* DronMissionHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116E523321357840000AB657 /* DronMissionHistoryViewModel.swift */; };
+		116E5236213578FF000AB657 /* DronMissionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116E5235213578FF000AB657 /* DronMissionHistoryView.swift */; };
+		116E523821357E41000AB657 /* DronMissionHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116E523721357E41000AB657 /* DronMissionHistoryTableViewCell.swift */; };
+		1179AA6C213D18B2000DB4E2 /* DronAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1179AA6B213D18B2000DB4E2 /* DronAppConstants.swift */; };
+		117CF7D721427B0B003DA6ED /* DronDevicesScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117CF7D621427B0B003DA6ED /* DronDevicesScreenSize.swift */; };
 		11A48DDD20F741D000FF83D7 /* DronMissionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */; };
 		11C0E98921022566006C5AB6 /* DronUserLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C0E98821022566006C5AB6 /* DronUserLocationViewController.swift */; };
 		11D11F3B20F63DE40042206C /* DronMissionInfoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D11F3A20F63DE40042206C /* DronMissionInfoDTO.swift */; };
@@ -69,10 +76,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11110BA3212FF50B00967CB4 /* DronMissionHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionHistoryViewController.swift; sourceTree = "<group>"; };
+		1161D51E2137F0C7004DD610 /* DronMissionHistoryTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionHistoryTableHeaderView.swift; sourceTree = "<group>"; };
 		1165425C20FF1F6100B62C21 /* DronMissionInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoViewController.swift; sourceTree = "<group>"; };
 		11670F7D20FDEB380033063F /* DronMissionInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoViewModel.swift; sourceTree = "<group>"; };
 		11670F7F20FE1B550033063F /* DronMissionInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoTableViewCell.swift; sourceTree = "<group>"; };
 		116A5D912100C78900CFAB53 /* DronViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronViewExtension.swift; sourceTree = "<group>"; };
+		116E523321357840000AB657 /* DronMissionHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionHistoryViewModel.swift; sourceTree = "<group>"; };
+		116E5235213578FF000AB657 /* DronMissionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionHistoryView.swift; sourceTree = "<group>"; };
+		116E523721357E41000AB657 /* DronMissionHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		1179AA6B213D18B2000DB4E2 /* DronAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronAppConstants.swift; sourceTree = "<group>"; };
+		117CF7D621427B0B003DA6ED /* DronDevicesScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronDevicesScreenSize.swift; sourceTree = "<group>"; };
 		11A48DDC20F741D000FF83D7 /* DronMissionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoView.swift; sourceTree = "<group>"; };
 		11C0E98821022566006C5AB6 /* DronUserLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronUserLocationViewController.swift; sourceTree = "<group>"; };
 		11D11F3A20F63DE40042206C /* DronMissionInfoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DronMissionInfoDTO.swift; sourceTree = "<group>"; };
@@ -151,6 +165,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11110BA2212FF4B300967CB4 /* DronMissionHistoryViewController */ = {
+			isa = PBXGroup;
+			children = (
+				11110BA3212FF50B00967CB4 /* DronMissionHistoryViewController.swift */,
+				116E523321357840000AB657 /* DronMissionHistoryViewModel.swift */,
+				116E5235213578FF000AB657 /* DronMissionHistoryView.swift */,
+				116E523721357E41000AB657 /* DronMissionHistoryTableViewCell.swift */,
+				1161D51E2137F0C7004DD610 /* DronMissionHistoryTableHeaderView.swift */,
+			);
+			path = DronMissionHistoryViewController;
+			sourceTree = "<group>";
+		};
 		11D11F3720F620880042206C /* MissionInfoViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -300,6 +326,7 @@
 		E26E555820AEC2C9005B541D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				11110BA2212FF4B300967CB4 /* DronMissionHistoryViewController */,
 				11D11F3720F620880042206C /* MissionInfoViewController */,
 				E26E555A20AEC2D9005B541D /* DronControlViewController */,
 				E26E555920AEC2D7005B541D /* AccountViewController */,
@@ -333,6 +360,8 @@
 			children = (
 				E28FF3AC20B2EDBC00E44158 /* ColorExtension.swift */,
 				116A5D912100C78900CFAB53 /* DronViewExtension.swift */,
+				1179AA6B213D18B2000DB4E2 /* DronAppConstants.swift */,
+				117CF7D621427B0B003DA6ED /* DronDevicesScreenSize.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -578,9 +607,12 @@
 				11670F7E20FDEB380033063F /* DronMissionInfoViewModel.swift in Sources */,
 				E28FF3A820AF010400E44158 /* DronAccountViewModel.swift in Sources */,
 				E26E554720AC29B5005B541D /* DronDTO.swift in Sources */,
+				1179AA6C213D18B2000DB4E2 /* DronAppConstants.swift in Sources */,
 				E23D7064211DC860006C3333 /* DronAccountTableSectionHeaderView.swift in Sources */,
 				E28FF3AD20B2EDBC00E44158 /* ColorExtension.swift in Sources */,
+				117CF7D721427B0B003DA6ED /* DronDevicesScreenSize.swift in Sources */,
 				E26E555720AEBECE005B541D /* DronUIManager.swift in Sources */,
+				11110BA4212FF50B00967CB4 /* DronMissionHistoryViewController.swift in Sources */,
 				E28FF3B420B4611300E44158 /* DronKeychainManager.swift in Sources */,
 				E28FF3B620B4641800E44158 /* DronAccount.swift in Sources */,
 				E28FF3AF20B4104100E44158 /* DronLocationManager.swift in Sources */,
@@ -590,6 +622,7 @@
 				E28FF3B820B5A4F200E44158 /* DronSosRequestStatusDTO.swift in Sources */,
 				116A5D922100C78900CFAB53 /* DronViewExtension.swift in Sources */,
 				E26E554F20AC5C2E005B541D /* DronStatusOutDTO.swift in Sources */,
+				1161D51F2137F0C7004DD610 /* DronMissionHistoryTableHeaderView.swift in Sources */,
 				11A48DDD20F741D000FF83D7 /* DronMissionInfoView.swift in Sources */,
 				E28FF3B120B447C100E44158 /* DronUpdatingLocation.swift in Sources */,
 				11670F8020FE1B550033063F /* DronMissionInfoTableViewCell.swift in Sources */,
@@ -600,9 +633,12 @@
 				E26E550C20AABFD3005B541D /* AppDelegate.swift in Sources */,
 				1165425D20FF1F6100B62C21 /* DronMissionInfoViewController.swift in Sources */,
 				E28FF3A620AF00BC00E44158 /* DronAccountView.swift in Sources */,
+				116E5236213578FF000AB657 /* DronMissionHistoryView.swift in Sources */,
+				116E523821357E41000AB657 /* DronMissionHistoryTableViewCell.swift in Sources */,
 				E26E554D20AC5BB2005B541D /* DronStatusInDTO.swift in Sources */,
 				E26E553B20AAC4C3005B541D /* DronNetworkService.swift in Sources */,
 				E26E555C20AEC482005B541D /* DronControlViewController.swift in Sources */,
+				116E523421357840000AB657 /* DronMissionHistoryViewModel.swift in Sources */,
 				E26E554420AC286C005B541D /* DronServerProvider.swift in Sources */,
 				11C0E98921022566006C5AB6 /* DronUserLocationViewController.swift in Sources */,
 			);

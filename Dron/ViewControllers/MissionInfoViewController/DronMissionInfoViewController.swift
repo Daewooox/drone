@@ -20,7 +20,8 @@ class DronMissionInfoViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         initialSetup()
     }
-   
+    
+    
     func initialSetup() {
         if (mapView != nil) {
             self.mapView?.removeFromSuperview()

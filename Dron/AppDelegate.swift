@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         InjectorContainer.shared.dronUIManager.loadMainUI();
         InjectorContainer.shared.dronLocationManager.start()
-        
+        InjectorContainer.shared.dronServerProvider.getAccountMissions(page: DronAppConstants.URLConstants.pageForAccountMission, size: DronAppConstants.URLConstants.sizeForAccountMission) { (response, error) -> (Void) in }
 
         let udid = UIDevice.current.identifierForVendor!.uuidString
         
